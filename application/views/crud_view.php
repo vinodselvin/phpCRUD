@@ -9,6 +9,7 @@
 echo "<pre>";
 print_r($result);
 echo "</pre>";
+
 ?>
 <div class="row">
 	<h4 class="col-sm-4">PHP CRUD</h4>
@@ -24,53 +25,36 @@ echo "</pre>";
 <div class="table-responsive">
 	<table class="table">
 	<thead>
-		<tr>
-			<th><input class="form-control width-250" name="search_all_col" placeholder="Search <?php ?>" type="search"></th>
-			<th><input class="form-control width-250" name="search_all_col" placeholder="Search <?php ?>" type="search"></th>	
-			<th><input class="form-control width-250" name="search_all_col" placeholder="Search <?php ?>" type="search"></th>
-			<th><input class="form-control width-250" name="search_all_col" placeholder="Search <?php ?>" type="search"></th>
-			<th><input class="form-control width-250" name="search_all_col" placeholder="Search <?php ?>" type="search"></th>
-			<th><input class="form-control width-250" name="search_all_col" placeholder="Search <?php ?>" type="search"></th>
-			<th><input class="form-control width-250" name="search_all_col" placeholder="Search <?php ?>" type="search"></th>
+	<tr>
+		<?php foreach ($result as $key => $value) {
+		foreach ($value as $key1 => $value1) {
+		?>
+			<td><input type="search" placeholder="Search by <?php echo $key1; ?> " class="form-control" ></td>
+
+			<?php  } break;}?>
+		
+		</tr>
+	<tr>
+		<?php foreach ($result as $key => $value) {
+		foreach ($value as $key1 => $value1) {
+		?>
+			<th><?php echo $key1; ?></th>
+
+			<?php  } break;}?>
 		</tr>
 	</thead>
 	<tbody>
+		<?php foreach ($result as $key => $value) {?>
 		<tr>
-			<th>Header#</th>
-			<th>Header#</th>
-			<th>Header#</th>
-			<th>Header#</th>
-			<th>Header#</th>
-			<th>Header#</th>
-			<th>Header#</th>
-		</tr>
-		<tr>
-			<td>Col1</td>
-			<td>Col1</td>
-			<td>Col1</td>
-			<td>Col1</td>
-			<td>Col1</td>
-			<td>Col1</td>
-			<td>Col1</td>
-		</tr>
-		<tr>
-			<td>Col1</td>
-			<td>Col1</td>
-			<td>Col1</td>
-			<td>Col1</td>
-			<td>Col1</td>
-			<td>Col1</td>
-			<td>Col1</td>
-		</tr>
-		<tr>
-			<td>Col1</td>
-			<td>Col1</td>
-			<td>Col1</td>
-			<td>Col1</td>
-			<td>Col1</td>
-			<td>Col1</td>
-			<td>Col1</td>
-		</tr>
+	<?php foreach ($value as $key1 => $value1) { ?>
+			<td><?php echo $value1; ?></td>
+			<?php }?>
+	<td><a href="crud_controller/edit" class="">Edit </a>|<a href="crud_controller/delete/<?php echo $value1.'/'.$key1 ?>"  class=""> Delete</a></td>
+
+			<?php }?>
+
+			</tr>
+
 	</tbody>
 	</table>
 </div>

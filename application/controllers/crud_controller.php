@@ -22,6 +22,12 @@ class Crud_controller extends CI_Controller {
 		$this->load->view('crud_view', $data);
                 $this->load->view('static/footer', $data);
 	}
+	public function edit_row(){
+		echo "I will show u how great I am";
+	}
+	public function delete_row($table_name,$row_id){
+		echo "U cannot delete me".$table_name." ".$row_id;	
+	}
 }
 
 /* End of file welcome.php */
