@@ -11,8 +11,15 @@ class Crud_controller extends CI_Controller {
                 $js[] = base_url('assets/bootstrap/js/bootstrap.min.js');
                 $data['css'] = $css;
                 $data['js'] = $js;
+                $this->load->library('php_crud');
+                
+                $this->php_crud->select_column = array('id','unique_id','content');
+                
+                $data['result'] = $this->php_crud->select_table('user_data');
+                
+                
                 $this->load->view('static/header', $data);
-		$this->load->view('crud_view');
+		$this->load->view('crud_view', $data);
                 $this->load->view('static/footer', $data);
 	}
 }

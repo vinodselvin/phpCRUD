@@ -6,7 +6,9 @@
  * and open the template in the editor.
  */
 
-
+echo "<pre>";
+print_r($result);
+echo "</pre>";
 ?>
 <div class="row">
 	<h4 class="col-sm-4">PHP CRUD</h4>
