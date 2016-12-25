@@ -6,9 +6,7 @@
 -- Generation Time: Dec 25, 2016 at 08:50 AM
 -- Server version: 10.1.10-MariaDB
 -- PHP Version: 7.0.3
-create database 'phpcrud';
 
-use database 'phpcrud';
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
