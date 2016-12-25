@@ -5,8 +5,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-echo "hello world";
-
+echo "<pre>";
+print_r($result);
+echo "</pre>";
 ?>
 
 <!DOCTYPE html>
