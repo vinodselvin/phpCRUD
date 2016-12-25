@@ -64,7 +64,7 @@ $autoload['libraries'] = array('database','php_crud');
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array('url');
+$autoload['helper'] = array('url','form');
 
 
 /*
