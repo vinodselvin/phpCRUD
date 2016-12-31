@@ -8,4 +8,4 @@
         <?php } ?>
             
     </head>
-    <body>
+    <body ng-app="phpCrud">
