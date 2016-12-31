@@ -9,25 +9,26 @@
 $table_data = $result['table_data'];
 
 ?>
-<div class="row">
-    <h4 class="col-sm-4">PHP CRUD</h4>
-</div>
 
+<div class="h1">
+    PHP CRUD
+</div>
 <div ng-controller="tableData" class="card">
-    <div class="row">
-        <div class="col-sm-4 text-md-center">
+    
+    <div>
+        <div class="col-lg-4 text-md-center">
             <b>
                 Table: <u>
                             <?php echo $result['table_name']; ?>
                         </u>
             </b>
         </div>
-        <div class="col-sm-4">
+        <div class="col-lg-4">
             <div >
                 <input class="form-control width-250" name="search_all_col" type="search" placeholder="search all columns">
             </div>
         </div>
-        <div class="col-sm-4 text-sm-center">
+        <div class="col-lg-4 text-md-center">
             <p class="text-right text-primary">
                 <b>Date: <?php echo date("dS, F y"); ?></b>
             </p>
@@ -70,29 +71,31 @@ $table_data = $result['table_data'];
         </table>
     </div>
 
-    <div class="row">
-        <div class="col-sm-4">
-            <?php echo 'No records found (#in case empty)'; ?>
-        </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <?php echo 'No records found (#in case empty)'; ?>
+            </div>
 
-        <div class="col-sm-2">
-            <label for="no_of_rows" class="text-primary font-weight-bold">No. of rows to Display:</label>
-                <select class="form-control text-primary" id="no_of_rows">
-                    <option>10</option>
-                    <option>50</option>
-                    <option>100</option>
-                    <option>500</option>
-                    <option>1000</option>
-                </select>
-        </div>
+            <div class="col-sm-3">
+                <label for="no_of_rows" class="text-primary font-weight-bold">No. of rows to Display:</label>
+                    <select class="form-control text-primary" id="no_of_rows">
+                        <option>10</option>
+                        <option>50</option>
+                        <option>100</option>
+                        <option>500</option>
+                        <option>1000</option>
+                    </select>
+            </div>
 
-        <div class="col-sm-4 text-sm-right">
+            <div class="col-sm-5 text-sm-center">
 
-            <ul class="pagination">
-                <li>
-                    <a href="#">1</a>
-                </li>
-            </ul>
+                <ul class="pagination">
+                    <li>
+                        <a href="#">1</a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>
