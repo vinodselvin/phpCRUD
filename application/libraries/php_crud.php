@@ -26,7 +26,11 @@ class Php_crud {
                
                $result = $CI->Php_crud_model->select_table($table_name, $select);
                
-               return ($result->result_array());
+               $final_result['table_data'] = $result->result_array();
+               
+               $final_result['table_name'] = $table_name;
+               
+               return ($final_result);
 	}
 }
 

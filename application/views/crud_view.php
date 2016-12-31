@@ -6,41 +6,44 @@
  * and open the template in the editor.
  */
 
-echo "<pre>";
-print_r($result);
-echo "</pre>";
+$table_data = $result['table_data'];
 
 ?>
 <div class="row">
     <h4 class="col-sm-4">PHP CRUD</h4>
 </div>
 
-<div ng-controller="tableData" >
+<div ng-controller="tableData" class="card">
     <div class="row">
-        <div class="col-sm-4">
-            <?php echo 'Table Name'; ?>
+        <div class="col-sm-4 text-md-center">
+            <b>
+                Table: <u>
+                            <?php echo $result['table_name']; ?>
+                        </u>
+            </b>
         </div>
-        <div class="col-sm-6">
-            <div class="col-xs-4">
+        <div class="col-sm-4">
+            <div >
                 <input class="form-control width-250" name="search_all_col" type="search" placeholder="search all columns">
             </div>
         </div>
-        <div class="col-sm-2">
-            <p class="text-right">
-                <?php echo 'Date :'.date("d - m - y"); ?>
+        <div class="col-sm-4 text-sm-center">
+            <p class="text-right text-primary">
+                <b>Date: <?php echo date("dS, F y"); ?></b>
             </p>
         </div>
     </div>
-    <div class="table-responsive">
-        <table class="table" ng-init="results = <?php echo htmlspecialchars(json_encode($result)); ?>">
-            <thead>
+    <div class="table-responsive" >
+        <table class="table table-striped" ng-init="results = <?php echo htmlspecialchars(json_encode($table_data)); ?>">
+            <thead class="breadcrumb">
                 <tr ng-repeat="row in results | limitTo : 1">
                     <td ng-repeat="(key,value) in row">
                         <input type="search" placeholder="Search by {{key}} " class="form-control" >
                     </td>
-                </tr>
-                <tr ng-repeat="row in results | limitTo : 1" >
-                    <th ng-repeat="(key, value) in row">
+                    <td></td>
+                </tr >
+                <tr ng-repeat="row in results | limitTo : 1" class='bg-primary text-white'>
+                    <th ng-repeat="(key, value) in row" >
                         {{key}}
                     </th>
                     <th>
@@ -54,11 +57,10 @@ echo "</pre>";
                         {{col}}
                     </td>
                     <td>
-                        <a href="crud_controller/edit" class="">
+                        <a href="crud_controller/edit" class="btn btn-danger">
                             Edit 
                         </a>
-                        |
-                        <a href="crud_controller/delete/<?php echo $value1.'/'.$key1 ?>"  class="">
+                        <a href="crud_controller/delete/<?php echo $value1.'/'.$key1 ?>"  class="btn btn-primary">
                             Delete
                         </a>
                     </td>
@@ -73,15 +75,18 @@ echo "</pre>";
             <?php echo 'No records found (#in case empty)'; ?>
         </div>
 
-        <div class="col-sm-4">
-            <label>
-                No. of rows 
-            </label>
-
-            <input type="text" name="no." class="s">
+        <div class="col-sm-2">
+            <label for="no_of_rows" class="text-primary font-weight-bold">No. of rows to Display:</label>
+                <select class="form-control text-primary" id="no_of_rows">
+                    <option>10</option>
+                    <option>50</option>
+                    <option>100</option>
+                    <option>500</option>
+                    <option>1000</option>
+                </select>
         </div>
 
-        <div class="col-sm-4">
+        <div class="col-sm-4 text-sm-right">
 
             <ul class="pagination">
                 <li>
