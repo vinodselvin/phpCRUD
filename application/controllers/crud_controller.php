@@ -14,7 +14,7 @@ class Crud_controller extends CI_Controller {
             $this->load->view('static/footer', $data);
 	}
 	public function edit_row(){
-                $data = $this->input->post();
+                $data = $this->input->post('table_name');
 		echo json_encode($data);
 	}
 	public function delete_row($table_name,$row_id){

@@ -17,15 +17,22 @@ var app = angular.module("phpCrud",[]);
 app.controller("tableData", function($scope, $http) {
     
     $scope.edit = function(){
-        $http({
+    alert($scope.table_name);
+    var data = {'table_name': $scope.table_name};
+
+    $http({
             url: BASE_URL + "crud_controller/edit",
             method: "POST",
-            data: {"foo":"bar"}
-        }).success(function(data, status, headers, config) {
-            console.log(data);
-        }).error(function(data, status, headers, config) {
-//            $scope.status = status;
-        });
+            data: $.param(data),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        })
+        .then(function successCallback(response) 
+        {
+//            console.log(response.data);
+        }
+        ,function errorCallback(response) 
+        {
 
+        });
     };
 });

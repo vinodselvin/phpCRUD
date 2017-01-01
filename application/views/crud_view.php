@@ -18,7 +18,7 @@ $table_data = $result['table_data'];
         <div class="col-lg-4 text-md-center">
             <b>
                 Table: <u>
-                            <?php echo $result['table_name']; ?>
+                            <input type="text" ng-model="table_name" ng-init='table=<?php echo htmlspecialchars($result['table_name']); ?>' value="{{table}}">
                         </u>
             </b>
         </div>
@@ -65,9 +65,9 @@ $table_data = $result['table_data'];
                         </button>
                     </td>
                     <td>
-                        <a href="crud_controller/delete/<?php echo $value1.'/'.$key1 ?>"  class="btn btn-primary">
+                        <button class="btn btn-primary" ng-click="delete()">
                             Delete
-                        </a>
+                        </button>
                     </td>
                 </tr>
             </tbody>
