@@ -13,8 +13,7 @@ $table_data = $result['table_data'];
 <div class="h1">
     PHP CRUD
 </div>
-<div ng-controller="tableData" class="card">
-    
+<div ng-controller="tableData">
     <div>
         <div class="col-lg-4 text-md-center">
             <b>
@@ -30,24 +29,27 @@ $table_data = $result['table_data'];
         </div>
         <div class="col-lg-4 text-md-center">
             <p class="text-right text-primary">
-                <b>Date: <?php echo date("dS, F y"); ?></b>
+                <b>
+                    Date: 
+                        <?php echo date("dS, M Y"); ?>
+                </b>
             </p>
         </div>
     </div>
-    <div class="table-responsive" >
+    <div class="table-responsive">
         <table class="table table-striped" ng-init="results = <?php echo htmlspecialchars(json_encode($table_data)); ?>">
             <thead class="breadcrumb">
                 <tr ng-repeat="row in results | limitTo : 1">
                     <td ng-repeat="(key,value) in row">
                         <input type="search" placeholder="Search by {{key}} " class="form-control" >
                     </td>
-                    <td></td>
+                    <td colspan="2"></td>
                 </tr >
                 <tr ng-repeat="row in results | limitTo : 1" class='bg-primary text-white'>
                     <th ng-repeat="(key, value) in row" >
                         {{key}}
                     </th>
-                    <th>
+                    <th colspan="2">
                         Control
                     </th>
                 </tr>
@@ -58,25 +60,24 @@ $table_data = $result['table_data'];
                         {{col}}
                     </td>
                     <td>
-                        <a href="crud_controller/edit" class="btn btn-danger">
+                        <button class="btn btn-danger" ng-click="edit()">
                             Edit 
-                        </a>
+                        </button>
+                    </td>
+                    <td>
                         <a href="crud_controller/delete/<?php echo $value1.'/'.$key1 ?>"  class="btn btn-primary">
                             Delete
                         </a>
                     </td>
                 </tr>
             </tbody>
-
         </table>
     </div>
-
     <div class="container">
         <div class="row">
             <div class="col-sm-4">
                 <?php echo 'No records found (#in case empty)'; ?>
             </div>
-
             <div class="col-sm-3">
                 <label for="no_of_rows" class="text-primary font-weight-bold">No. of rows to Display:</label>
                     <select class="form-control text-primary" id="no_of_rows">
@@ -87,18 +88,14 @@ $table_data = $result['table_data'];
                         <option>1000</option>
                     </select>
             </div>
-
             <div class="col-sm-5 text-sm-center">
-
                 <ul class="pagination">
                     <li>
                         <a href="#">1</a>
                     </li>
                 </ul>
+                
             </div>
         </div>
     </div>
 </div>
-
-
-
