@@ -15,10 +15,19 @@ var app = angular.module("phpCrud",[]);
 
 //var app = angular.module('phpCrud', ['ngAria', 'ngMaterial', 'miniapp', 'ngAnimate', 'ui.bootstrap', 'ngSanitize']);
 app.controller("tableData", function($scope, $http) {
-    
-    $scope.edit = function(){
-    alert($scope.table_name);
-    var data = {'table_name': $scope.table_name};
+
+
+    $scope.edit = function(row, primary_key){
+
+    delete row.$$hashKey;
+
+    var arr = $.map(row, function(value, index) {
+        return [value];
+    });
+
+    var data = {'table_name': angular.element('#table_name').val(),
+                'row': arr,
+                'primary_key': primary_key};
 
     $http({
             url: BASE_URL + "crud_controller/edit",
@@ -26,13 +35,31 @@ app.controller("tableData", function($scope, $http) {
             data: $.param(data),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         })
-        .then(function successCallback(response) 
+        .then(function successCallback(response)
         {
-//            console.log(response.data);
+          console.log(response);
         }
-        ,function errorCallback(response) 
+        ,function errorCallback(response)
         {
 
         });
     };
+
+    $scope.delete = function(){
+
+      $http({
+              url: BASE_URL + "crud_controller/delete",
+              method: "POST",
+              data: $.param(data),
+              headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+          })
+          .then(function successCallback(response)
+          {
+  //            console.log(response.data);
+          }
+          ,function errorCallback(response)
+          {
+
+          });
+    }
 });

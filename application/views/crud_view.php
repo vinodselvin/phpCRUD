@@ -1,24 +1,24 @@
 <?php
 
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 
 $table_data = $result['table_data'];
-
+$primary_key = $result['primary_key'];
 ?>
 
 <div class="h1">
     PHP CRUD
 </div>
-<div ng-controller="tableData">
+<div ng-controller="tableData" ng-init="primary_key = <?php echo htmlspecialchars(json_encode($primary_key));?>">
     <div>
         <div class="col-lg-4 text-md-center">
             <b>
                 Table: <u>
-                            <input type="text" ng-model="table_name" ng-init='table=<?php echo htmlspecialchars($result['table_name']); ?>' value="{{table}}">
+                            <input type="text" id="table_name" value="<?php echo htmlspecialchars($result['table_name']); ?>" disabled>
                         </u>
             </b>
         </div>
@@ -30,14 +30,14 @@ $table_data = $result['table_data'];
         <div class="col-lg-4 text-md-center">
             <p class="text-right text-primary">
                 <b>
-                    Date: 
+                    Date:
                         <?php echo date("dS, M Y"); ?>
                 </b>
             </p>
         </div>
     </div>
     <div class="table-responsive">
-        <table class="table table-striped" ng-init="results = <?php echo htmlspecialchars(json_encode($table_data)); ?>">
+        <table class="table table-striped" ng-init="results = <?php echo htmlspecialchars(json_encode($table_data)); ?>;">
             <thead class="breadcrumb">
                 <tr ng-repeat="row in results | limitTo : 1">
                     <td ng-repeat="(key,value) in row">
@@ -47,7 +47,12 @@ $table_data = $result['table_data'];
                 </tr >
                 <tr ng-repeat="row in results | limitTo : 1" class='bg-primary text-white'>
                     <th ng-repeat="(key, value) in row" >
-                        {{key}}
+                        <span ng-if="primary_key == key" class='text-warning' title='Primay Key'>
+                          {{key}}
+                        </span>
+                        <span ng-if="primary_key != key">
+                          {{key}}
+                        </span>
                     </th>
                     <th colspan="2">
                         Control
@@ -60,8 +65,8 @@ $table_data = $result['table_data'];
                         {{col}}
                     </td>
                     <td>
-                        <button class="btn btn-danger" ng-click="edit()">
-                            Edit 
+                        <button class="btn btn-danger" ng-click="edit(row, primary_key)" data-toggle="modal" data-target="#myModal">
+                            Edit
                         </button>
                     </td>
                     <td>
@@ -73,6 +78,23 @@ $table_data = $result['table_data'];
             </tbody>
         </table>
     </div>
+    <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Modal Header</h4>
+        </div>
+        <div class="modal-body">
+          <p>This is a large modal.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
     <div class="container">
         <div class="row">
             <div class="col-sm-4">
@@ -94,7 +116,7 @@ $table_data = $result['table_data'];
                         <a href="#">1</a>
                     </li>
                 </ul>
-                
+
             </div>
         </div>
     </div>
