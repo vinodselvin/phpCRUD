@@ -24,7 +24,7 @@ $primary_key = $result['primary_key'];
         </div>
         <div class="col-lg-4">
             <div >
-                <input class="form-control width-250" name="search_all_col" type="search" placeholder="search all columns">
+                <input class="form-control width-250" name="search_all_col" type="search" placeholder="search all columns" ng-model="searchBy.$">
             </div>
         </div>
         <div class="col-lg-4 text-md-center">
@@ -41,7 +41,7 @@ $primary_key = $result['primary_key'];
             <thead class="breadcrumb">
                 <tr ng-repeat="row in results | limitTo : 1">
                     <td ng-repeat="(key,value) in row">
-                        <input type="search" placeholder="Search by {{key}} " class="form-control" >
+                        <input type="search" placeholder="Search by {{key}} " class="form-control" ng-model="searchBy[$index]">
                     </td>
                     <td colspan="2"></td>
                 </tr >
@@ -60,7 +60,7 @@ $primary_key = $result['primary_key'];
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="row in results" >
+                <tr ng-repeat="row in results | filter : searchBy" >
                     <td ng-repeat="col in row track by $index">
                         {{col}}
                     </td>
