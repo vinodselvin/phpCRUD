@@ -10,9 +10,20 @@ $table_data = $result['table_data'];
 $primary_key = $result['primary_key'];
 ?>
 
-<div class="h1 container-fluid">
+<div class="h1 container-fluid ">
     PHP CRUD
 </div>
+
+<?php if($result['error']){ ?>
+<div class="container m-t-5p">
+        <div class="row">
+            <div class="text-center well">
+                <i class="glyphicon glyphicon-exclamation-sign text-danger"></i>
+                <b> <?php echo 'No records found (or) Table Name might be missing/ wrong.'; ?></b>
+            </div>
+        </div>
+</div>
+<?php } else {?>
 <div ng-controller="tableData" ng-init="primary_key = <?php echo htmlspecialchars(json_encode($primary_key));?>">
     <div class="container-fluid">
     <div class='row'> 
@@ -105,3 +116,5 @@ $primary_key = $result['primary_key'];
         </div>
     </div>
 </div>
+</div>
+<?php } ?>

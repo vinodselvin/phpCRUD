@@ -3,11 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/phpCRUD/application/libraries/php_crud.php</file>
+            <file>file:/C:/xampp/htdocs/phpCRUD/application/views/static/footer.php</file>
+            <file>file:/C:/xampp/htdocs/phpCRUD/assets/bootstrap/js/boot-ui.js</file>
+            <file>file:/C:/xampp/htdocs/phpCRUD/my_assets/js/app.js</file>
+            <file>file:/C:/xampp/htdocs/phpCRUD/assets/bootstrap/js/bootstrap.js</file>
+            <file>file:/C:/xampp/htdocs/phpCRUD/assets/bootstrap/css/bootstrap.min.css</file>
             <file>file:/C:/xampp/htdocs/phpCRUD/application/views/crud_view.php</file>
-            <file>file:/C:/xampp/htdocs/phpCRUD/application/config/database.php</file>
+            <file>file:/C:/xampp/htdocs/phpCRUD/assets/bootstrap/js/bootstrap.min.js</file>
+            <file>file:/C:/xampp/htdocs/phpCRUD/assets/bootstrap/css/bootstrap.css</file>
             <file>file:/C:/xampp/htdocs/phpCRUD/application/controllers/crud_controller.php</file>
-            <file>file:/C:/xampp/htdocs/phpCRUD/index.php</file>
         </group>
     </open-files>
 </project-private>
