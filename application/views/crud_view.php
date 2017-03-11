@@ -10,44 +10,41 @@ $table_data = $result['table_data'];
 $primary_key = $result['primary_key'];
 ?>
 
-<div class="h1">
+<div class="h1 container-fluid">
     PHP CRUD
 </div>
 <div ng-controller="tableData" ng-init="primary_key = <?php echo htmlspecialchars(json_encode($primary_key));?>">
-    <div>
-        <div class="col-lg-4 text-md-center">
-            <b>
-                Table: <u>
-                            <input type="text" id="table_name" value="<?php echo htmlspecialchars($result['table_name']); ?>" disabled>
-                        </u>
-            </b>
+    <div class="container-fluid">
+    <div class='row'> 
+        <div class=" form-inline col-lg-6">
+            <div class="input-group">
+                <div class="input-group-addon">Table Name</div>
+                <input type="text" class="form-control" id="inlineFormInputGroup" value="<?php echo htmlspecialchars($result['table_name']); ?>" disabled>
+            </div>
         </div>
         <div class="col-lg-4">
-            <div >
+            <div class="text-right">
                 <input class="form-control width-250" name="search_all_col" type="search" placeholder="search all columns" ng-model="searchBy.$">
             </div>
         </div>
-        <div class="col-lg-4 text-md-center">
-            <p class="text-right text-primary">
-                <b>
-                    Date:
-                        <?php echo date("dS, M Y"); ?>
-                </b>
-            </p>
-        </div>
+    </div>
     </div>
     <div class="table-responsive">
-        <table class="table table-striped" ng-init="results = <?php echo htmlspecialchars(json_encode($table_data)); ?>;">
+        <table class="container table table-striped" ng-init="results = <?php echo htmlspecialchars(json_encode($table_data)); ?>;">
             <thead class="breadcrumb">
-                <tr ng-repeat="row in results | limitTo : 1">
-                    <td ng-repeat="(key,value) in row">
-                        <input type="search" placeholder="Search by {{key}} " class="form-control" ng-model="searchBy[$index]">
+                <?php foreach ($table_data as $table_value){?>
+                <tr>
+                    <?php foreach ($table_value as $col_name => $col_value){?>
+                    <td>
+                        <input type="search" placeholder="Search by <?php echo $col_name; ?>" class="form-control" ng-model="searchBy.<?php echo $col_name; ?>">
                     </td>
+                    <?php } ?>
                     <td colspan="2"></td>
                 </tr >
+                <?php break;}?>
                 <tr ng-repeat="row in results | limitTo : 1" class='bg-primary text-white'>
                     <th ng-repeat="(key, value) in row" >
-                        <span ng-if="primary_key == key" class='text-warning' title='Primay Key'>
+                        <span ng-if="primary_key == key" style="color:burlywood" title='Primay Key'>
                           {{key}}
                         </span>
                         <span ng-if="primary_key != key">
@@ -60,18 +57,16 @@ $primary_key = $result['primary_key'];
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="row in results | filter : searchBy" >
+                <tr ng-repeat="row in filterData = (results | filter : searchBy : strict) | limitTo:10:10*(page-1)" >
                     <td ng-repeat="col in row track by $index">
                         {{col}}
                     </td>
                     <td>
-                        <button class="btn btn-danger" ng-click="edit(row, primary_key)" data-toggle="modal" data-target="#myModal">
-                            Edit
+                        <button class="btn btn-primary glyphicon glyphicon-edit" ng-click="edit(row, primary_key)" data-toggle="modal" data-target="#myModal">
                         </button>
                     </td>
                     <td>
-                        <button class="btn btn-primary" ng-click="delete()">
-                            Delete
+                        <button class="btn btn-danger glyphicon glyphicon-trash" ng-click="delete()">
                         </button>
                     </td>
                 </tr>
@@ -95,28 +90,17 @@ $primary_key = $result['primary_key'];
       </div>
     </div>
   </div>
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-4">
-                <?php echo 'No records found (#in case empty)'; ?>
-            </div>
-            <div class="col-sm-3">
-                <label for="no_of_rows" class="text-primary font-weight-bold">No. of rows to Display:</label>
-                    <select class="form-control text-primary" id="no_of_rows">
-                        <option>10</option>
-                        <option>50</option>
-                        <option>100</option>
-                        <option>500</option>
-                        <option>1000</option>
-                    </select>
-            </div>
             <div class="col-sm-5 text-sm-center">
-                <ul class="pagination">
-                    <li>
-                        <a href="#">1</a>
-                    </li>
-                </ul>
-
+                <uib-pagination  class="pagination" total-items="filterData.length" 
+                ng-model="page"
+                ng-change="pageChanged()" 
+                previous-text="&lsaquo;" 
+                next-text="&rsaquo;" 
+                items-per-page=10>
+                    
+                </uib-pagination 
             </div>
         </div>
     </div>

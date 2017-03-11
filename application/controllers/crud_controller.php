@@ -5,7 +5,7 @@ class Crud_controller extends CI_Controller {
 
 	public function index()
 	{
-            $this->php_crud->select_column = array('id','unique_id','content');
+//            $this->php_crud->select_column = array('id','unique_id','content');
 
             $data['result'] = $this->php_crud->select_table('user_data');
 

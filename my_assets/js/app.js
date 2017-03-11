@@ -11,12 +11,13 @@ if(HOSTNAME == 'localhost' || HOSTNAME == '127.0.0.1')
     BASE_URL = PROTOCOL + "//" + HOSTNAME + "/phpCrud/";
 }
 
-var app = angular.module("phpCrud",[]);
+var app = angular.module("phpCrud",["ui.bootstrap"]);
 
 //var app = angular.module('phpCrud', ['ngAria', 'ngMaterial', 'miniapp', 'ngAnimate', 'ui.bootstrap', 'ngSanitize']);
 app.controller("tableData", function($scope, $http) {
 
-
+    $scope.page = 1;
+    
     $scope.edit = function(row, primary_key){
 
     delete row.$$hashKey;
@@ -62,4 +63,10 @@ app.controller("tableData", function($scope, $http) {
 
           });
     }
+
+    $scope.pageChanged = function() {
+//	  var startPos = ($scope.page - 1) * 10;
+//	  console.log(filteredArray.length);
+	};
+        
 });
