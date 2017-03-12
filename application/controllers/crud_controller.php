@@ -6,9 +6,10 @@ if (!defined('BASEPATH'))
 class Crud_controller extends CI_Controller {
 
     public function index() {
-//            $this->php_crud->select_column = array('id','unique_id','content');
+        
+        $this->php_crud->select_column = array('unique_id','content');
 
-        $data['result'] = $this->php_crud->select_table('user_data');
+        $data['result'] = $this->php_crud->select_table('user_datas');
 
         $this->load->view('static/header', $data);
         $this->load->view('crud_view', $data);

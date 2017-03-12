@@ -8,6 +8,9 @@
 
 $table_data = $result['table_data'];
 $primary_key = $result['primary_key'];
+$primary_key_hidden = $result['primary_key_hidden'];
+$data_type = $result['data_type'];
+//print_r($result);exit;
 ?>
 
 <div class="h1 container-fluid ">
@@ -19,12 +22,15 @@ $primary_key = $result['primary_key'];
         <div class="row">
             <div class="text-center well">
                 <i class="glyphicon glyphicon-exclamation-sign text-danger"></i>
-                <b> <?php echo 'No records found (or) Table Name might be missing/ wrong.'; ?></b>
+                <b> <?php echo $result['message']; ?></b>
             </div>
         </div>
 </div>
 <?php } else {?>
-<div ng-controller="tableData" ng-init="primary_key = <?php echo htmlspecialchars(json_encode($primary_key));?>">
+<div ng-controller="tableData" 
+     ng-init="primary_key = <?php echo htmlspecialchars(json_encode($primary_key))?>; 
+         primary_key_hidden = <?php echo htmlspecialchars(json_encode($primary_key_hidden));?>;
+         data_type = <?php echo htmlspecialchars(json_encode($data_type));?>;">
     <div class="container-fluid">
     <div class='row'> 
         <div class=" form-inline col-lg-6">
@@ -46,15 +52,21 @@ $primary_key = $result['primary_key'];
                 <?php foreach ($table_data as $table_value){?>
                 <tr>
                     <?php foreach ($table_value as $col_name => $col_value){?>
-                    <td>
-                        <input type="search" placeholder="Search by <?php echo $col_name; ?>" class="form-control" ng-model="searchBy.<?php echo $col_name; ?>">
-                    </td>
+                        <?php if(($col_name == $primary_key && $primary_key_hidden == 'true')){}else{?>
+                    
+                            <td>
+                                <input type="search" placeholder="Search by <?php echo $col_name; ?>" 
+                                       class="form-control" 
+                                       ng-model="searchBy.<?php echo $col_name; ?>" >
+                            </td>
+                            
+                        <?php } ?>
                     <?php } ?>
                     <td colspan="2"></td>
                 </tr >
                 <?php break;}?>
                 <tr ng-repeat="row in results | limitTo : 1" class='bg-primary text-white'>
-                    <th ng-repeat="(key, value) in row" >
+                    <th ng-repeat="(key, value) in row" ng-hide="(primary_key_hidden == 'true' && primary_key == key)">
                         <span ng-if="primary_key == key" style="color:burlywood" title='Primay Key'>
                           {{key}}
                         </span>
@@ -69,15 +81,15 @@ $primary_key = $result['primary_key'];
             </thead>
             <tbody>
                 <tr ng-repeat="row in filterData = (results | filter : searchBy : strict) | limitTo:10:10*(page-1)" >
-                    <td ng-repeat="col in row track by $index">
+                    <td ng-repeat="(key,col) in row track by $index" ng-hide="(key == primary_key) && (primary_key_hidden == 'true')">
                         {{col}}
                     </td>
                     <td>
-                        <button class="btn btn-primary glyphicon glyphicon-edit" ng-click="edit(row, primary_key)" data-toggle="modal" data-target="#myModal">
+                        <button class="btn btn-primary glyphicon glyphicon-edit" ng-click="edit(row, row[primary_key], data_type)" data-toggle="modal" data-target="#myModal">
                         </button>
                     </td>
                     <td>
-                        <button class="btn btn-danger glyphicon glyphicon-trash" ng-click="delete()">
+                        <button class="btn btn-danger glyphicon glyphicon-trash" ng-click="delete(row[primary_key])">
                         </button>
                     </td>
                 </tr>

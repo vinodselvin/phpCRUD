@@ -18,18 +18,16 @@ app.controller("tableData", function($scope, $http) {
 
     $scope.page = 1;
     
-    $scope.edit = function(row, primary_key){
-
+    $scope.edit = function(row, primary_key, data_type){
+        console.log(data_type);
     delete row.$$hashKey;
 
-    var arr = $.map(row, function(value, index) {
-        return [value];
-    });
 
     var data = {'table_name': angular.element('#table_name').val(),
-                'row': arr,
-                'primary_key': primary_key};
-
+                'row': row,
+                'primary_key': primary_key,
+                'data_type': data_type};
+            
     $http({
             url: BASE_URL + "crud_controller/edit",
             method: "POST",

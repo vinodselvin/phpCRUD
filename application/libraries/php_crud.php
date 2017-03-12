@@ -8,6 +8,10 @@ if (!defined('BASEPATH'))
  */
 class Php_crud {
 
+    public function __construct() {
+
+    }
+    
     public $select_column;
 
     /*
@@ -22,36 +26,95 @@ class Php_crud {
         $CI->load->model('Php_crud_model');
 
         $select = '';
-
-        if (is_array($this->select_column)) {
-
-            $select = implode(", ", $this->select_column);
-        }
         
-        if (empty($this->select_column)) {
+        $exists = $CI->Php_crud_model->tableExists($table_name);
+        
+        if(!$exists){
             
-            $select = '*';
-        } 
-        else {
-            $select = $this->select_column;
+            $final_result['error'] = 'true';
+            
+            $final_result['message'] = 'Error: Selected Table Doesn\'t Exists in the Database.';
+            
+            return $final_result;
+        }
+        else{
+            
+            if (empty($this->select_column)) {
+            
+                $select = '*';
+            } 
+            else {
+                
+                $select = $this->select_column;
+                
+                $exists = $CI->Php_crud_model->columnExists($table_name, $select);
+                
+                if(!$exists){
+            
+                    $final_result['error'] = 'true';
+
+                    $final_result['message'] = 'Error: Selected Column Doesn\'t Exists in the Table.';
+
+                    return $final_result;
+                }
+                
+                $final_result['primary_key'] = $this->_getPrimaryKey($table_name);
+        
+                $final_select = $this->_primaryKeyExistInSelect($table_name, $select, $final_result['primary_key']);
+
+                $select = $final_select['select'];
+
+                $final_result['primary_key_hidden'] = $final_select['hidden'];
+            }
         }
 
         $result = $CI->Php_crud_model->select_table($table_name, $select);
 
-        $final_result['primary_key'] = $CI->Php_crud_model->get_primary_key($table_name);
-
-        if (empty($result)) {
+        if (empty($result['data'])) {
 
             $final_result['error'] = 'true';
 
+            $final_result['message'] = 'No records found (or) Table Name might be missing/ wrong..';
+            
             return $final_result;
         }
 
-        $final_result['table_data'] = $result->result_array();
-
+        $final_result['data_type'] = $result['data_type'];
+        
+        $final_result['table_data'] = $result['data'];
+        
         $final_result['table_name'] = $table_name;
 
         return ($final_result);
+    }
+    
+    function _getPrimaryKey($table_name){
+        
+        $CI = & get_instance();
+
+        $CI->load->model('Php_crud_model');
+        
+        return $CI->Php_crud_model->get_primary_key($table_name);
+    }
+    
+    function _primaryKeyExistInSelect($table_name, $select, $primary_key){
+        
+        $final_select;
+        
+        if(in_array($primary_key, $select)){
+
+            $final_select['hidden'] = 'false';
+        }
+        else{
+            
+            array_unshift($select, $primary_key);
+            
+            $final_select['hidden'] = 'true';
+        }
+        
+        $final_select['select'] = $select;
+        
+        return $final_select;
     }
 
 }
