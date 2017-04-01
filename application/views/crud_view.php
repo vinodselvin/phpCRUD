@@ -40,8 +40,11 @@ $data_type = $result['data_type'];
             </div>
         </div>
         <div class="col-lg-4">
-            <div class="text-right">
+            <div class="text-right input-group">
                 <input class="form-control width-250" name="search_all_col" type="search" placeholder="search all columns" ng-model="searchBy.$">
+                <span class="input-group-addon">
+                    <i class="glyphicon glyphicon-search"></i>
+                </span>
             </div>
         </div>
     </div>
@@ -55,9 +58,14 @@ $data_type = $result['data_type'];
                         <?php if(($col_name == $primary_key && $primary_key_hidden == 'true')){}else{?>
                     
                             <td>
-                                <input type="search" placeholder="Search by <?php echo $col_name; ?>" 
-                                       class="form-control" 
-                                       ng-model="searchBy.<?php echo $col_name; ?>" >
+                                <div class="input-group">
+                                    <input type="search" placeholder="Search by <?php echo $col_name; ?>" 
+                                           class="form-control" 
+                                           ng-model="searchBy.<?php echo $col_name; ?>" >
+                                    <span class="input-group-addon">
+                                        <i class="glyphicon glyphicon-search"></i>
+                                    </span>
+                                </div>
                             </td>
                             
                         <?php } ?>
