@@ -12,7 +12,9 @@ class Php_crud_model extends CI_Model {
      *          $select-> Column to be selected.
      */
     
-    public function select_table($table_name, $select) {
+    public function select_table($table_name, $select, $primary_key) {
+        
+        array_push($select, $primary_key);
         
         $this->db->select($select);
         
@@ -93,4 +95,42 @@ class Php_crud_model extends CI_Model {
         
         return $flag;
     }
+    
+     /*
+     * @Author: Pratik Pathak
+     * @Desc: Delete row from table with data
+      * @For: For Tables without Primary Key
+     * @Params: $table_name-> Name of the table
+     *                 $row-> row to be deleted.
+     */
+    
+    public function deleteRowWithData($table_name, $row){
+        
+        foreach ($row as $key => $value) {
+            
+            $this->db->where( $key, $value );
+            
+        }
+        
+        $this->db->limit(1);
+        
+        $this->db->delete($table_name);
+        
+    }
+    
+     /*
+     * @Author: Pratik Pathak
+     * @Desc: Delete row from table with Primary Key
+     * @Params: $table_name-> Name of the table
+     *                 $row-> row to be deleted.
+     */
+    
+    public function deleteRowWithPK($table_name, $primary_key, $row){
+        
+        $this->db->where( $primary_key, $row[$primary_key] );
+        
+        $this->db->delete($table_name);
+        
+    }
+    
 }

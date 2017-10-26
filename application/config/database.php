@@ -50,7 +50,7 @@ $active_record = TRUE;
     $db['default']['hostname'] = 'localhost';
     $db['default']['username'] = 'root';
     $db['default']['password'] = '';
-    $db['default']['database'] = 'phpcrud';
+    $db['default']['database'] = 'demo';
 
 
 $calledclass =  get_called_class();
