@@ -36,7 +36,7 @@ $data_type = $result['data_type'];
         <div class=" form-inline col-lg-6">
             <div class="input-group">
                 <div class="input-group-addon">Table Name</div>
-                <input type="text" class="form-control" id="inlineFormInputGroup" value="<?php echo htmlspecialchars($result['table_name']); ?>" disabled>
+                <input type="text" class="form-control" id="table_name" value="<?php echo htmlspecialchars($result['table_name']); ?>" disabled>
             </div>
         </div>
         <div class="col-lg-4">
@@ -93,34 +93,52 @@ $data_type = $result['data_type'];
                         {{col}}
                     </td>
                     <td>
-                        <button class="btn btn-primary glyphicon glyphicon-edit" ng-click="edit(row, row[primary_key], data_type)" data-toggle="modal" data-target="#myModal">
+                        <button class="btn btn-primary glyphicon glyphicon-edit" ng-click="edit(row, row[primary_key], data_type)" data-toggle="modal" data-target="#editModal">
                         </button>
                     </td>
                     <td>
-                        <button class="btn btn-danger glyphicon glyphicon-trash" ng-click="delete(row[primary_key])">
+                        <button class="btn btn-danger glyphicon glyphicon-trash" data-toggle="modal" data-target="#delModal">
                         </button>
+                        <!-- Modal for Delete -->
+                        <div class="modal fade" id="delModal" role="dialog">
+                          <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Warning!</h4>
+                              </div>
+                              <div class="modal-body">
+                                <p>Are you sure you want to delete this Row?</p>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-default" ng-click="delete(row)" data-dismiss="modal">Yes</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
-    <!-- Modal -->
-  <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Modal Header</h4>
-        </div>
-        <div class="modal-body">
-          <p>This is a large modal.</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <!-- Modal for Edit -->
+    <div class="modal fade" id="editModal" role="dialog">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Modal Header</h4>
+          </div>
+          <div class="modal-body">
+            <p>This is a large modal.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-5 text-sm-center">
@@ -131,10 +149,23 @@ $data_type = $result['data_type'];
                 next-text="&rsaquo;" 
                 items-per-page=10>
                     
-                </uib-pagination 
+                </uib-pagination>
             </div>
         </div>
     </div>
-</div>
+<!--     Modal for Displaying Message 
+    <div class="modal fade" id="msgModal" role="dialog">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Message</h4>
+          </div>
+          <div class="modal-body">
+            <p id ="message" ></p>
+          </div>
+        </div>
+      </div>
+    </div>-->
 </div>
 <?php } ?>

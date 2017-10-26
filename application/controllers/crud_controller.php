@@ -7,9 +7,9 @@ class Crud_controller extends CI_Controller {
 
     public function index() {
         
-        $this->php_crud->select_column = array('unique_id','content');
+//        $this->php_crud->select_column = array('unique_id','content');
 
-        $data['result'] = $this->php_crud->select_table('user_datas');
+        $data['result'] = $this->php_crud->select_table('comment');
 
         $this->load->view('static/header', $data);
         $this->load->view('crud_view', $data);
@@ -23,8 +23,16 @@ class Crud_controller extends CI_Controller {
         echo json_encode($data);
     }
 
-    public function delete_row($table_name, $row_id) {
-        echo "U cannot delete me" . $table_name . " " . $row_id;
+    public function delete_row() {
+        
+        $this->load->model('php_crud_model');
+
+        $data = $this->input->post();
+        $table_name = $data['table_name'];
+        $row = $data['row'];
+
+        $this->php_crud_model->deleteRow($table_name, $row);
+        
     }
 
 }

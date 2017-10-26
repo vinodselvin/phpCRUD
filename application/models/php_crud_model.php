@@ -93,4 +93,26 @@ class Php_crud_model extends CI_Model {
         
         return $flag;
     }
+    
+     /*
+     * @Author: Pratik Pathak
+     * @Desc: Delete row from table
+     * @Params: $table_name-> Name of the table
+     *                 $row-> row to be deleted.
+     */
+    
+    public function deleteRow($table_name, $row){
+        
+        foreach ($row as $key => $value) {
+            
+            $this->db->where( $key, $value );
+            
+        }
+        
+        $this->db->limit(1);
+        
+        $this->db->delete($table_name);
+        
+    }
+    
 }
