@@ -58,17 +58,19 @@ class Php_crud {
                     return $final_result;
                 }
                 
-                $final_result['primary_key'] = $this->_getPrimaryKey($table_name);
-        
                 $final_select = $this->_primaryKeyExistInSelect($table_name, $select, $final_result['primary_key']);
 
                 $select = $final_select['select'];
 
                 $final_result['primary_key_hidden'] = $final_select['hidden'];
+                
             }
+           
+           $final_result['primary_key'] = $this->_getPrimaryKey($table_name);
+            
         }
 
-        $result = $CI->Php_crud_model->select_table($table_name, $select);
+        $result = $CI->Php_crud_model->select_table($table_name, $select, $final_result['primary_key']);
 
         if (empty($result['data'])) {
 

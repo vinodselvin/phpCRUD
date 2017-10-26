@@ -20,7 +20,7 @@ app.controller("tableData", function ($scope, $http, $location) {
     $scope.page = 1;
 
     $scope.edit = function (row, primary_key, data_type) {
-        
+            
         console.log(data_type);
         delete row.$$hashKey;
 
@@ -46,13 +46,16 @@ app.controller("tableData", function ($scope, $http, $location) {
         
     };
 
-    $scope.delete = function (row) {
-
+    $scope.delete = function () {
+        
+        row = $scope.selected_row;
+        pk = $scope.primary_key;
         delete row.$$hashKey;
         
         var data = {
                             'table_name': angular.element('#table_name').val(),
-                            'row': row
+                            'row': row,
+                            'primary_key': $scope.primary_key
                          };
 
         $http({
@@ -64,15 +67,18 @@ app.controller("tableData", function ($scope, $http, $location) {
         .then(function successCallback(response)
         {
             location.reload();
-//            angular.element('#message').text("Row successfully Deleted");
-//            angular.element('#msgModal').modal('show');
         }
         , function errorCallback(response)
         {
 
         });
         
-    }
+    };
+
+    $scope.setSelected = function (row) {
+            
+            $scope.selected_row = row;
+    };
 
     $scope.pageChanged = function () {
 //	  var startPos = ($scope.page - 1) * 10;

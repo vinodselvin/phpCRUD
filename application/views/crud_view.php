@@ -30,7 +30,8 @@ $data_type = $result['data_type'];
 <div ng-controller="tableData" 
      ng-init="primary_key = <?php echo htmlspecialchars(json_encode($primary_key))?>; 
          primary_key_hidden = <?php echo htmlspecialchars(json_encode($primary_key_hidden));?>;
-         data_type = <?php echo htmlspecialchars(json_encode($data_type));?>;">
+         data_type = <?php echo htmlspecialchars(json_encode($data_type));?>;
+         selected_row = false;">
     <div class="container-fluid">
     <div class='row'> 
         <div class=" form-inline col-lg-6">
@@ -97,26 +98,8 @@ $data_type = $result['data_type'];
                         </button>
                     </td>
                     <td>
-                        <button class="btn btn-danger glyphicon glyphicon-trash" data-toggle="modal" data-target="#delModal">
+                        <button class="btn btn-danger glyphicon glyphicon-trash" ng-click="setSelected(row)" data-toggle="modal" data-target="#delModal">
                         </button>
-                        <!-- Modal for Delete -->
-                        <div class="modal fade" id="delModal" role="dialog">
-                          <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title">Warning!</h4>
-                              </div>
-                              <div class="modal-body">
-                                <p>Are you sure you want to delete this Row?</p>
-                              </div>
-                              <div class="modal-footer">
-                                <button type="button" class="btn btn-default" ng-click="delete(row)" data-dismiss="modal">Yes</button>
-                                <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
                     </td>
                 </tr>
             </tbody>
@@ -135,6 +118,24 @@ $data_type = $result['data_type'];
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal for Delete -->
+    <div class="modal fade" id="delModal" role="dialog">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Warning!</h4>
+          </div>
+          <div class="modal-body">
+            <p>Are you sure you want to delete this Row?</p>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="delete()">Yes</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
           </div>
         </div>
       </div>
