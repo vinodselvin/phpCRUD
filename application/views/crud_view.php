@@ -170,3 +170,6 @@ $data_type = $result['data_type'];
     </div>-->
 </div>
 <?php } ?>
+<script>
+    var BASE_URL = "<?php echo base_url('index.php'); ?>" ;
+</script>

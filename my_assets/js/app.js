@@ -5,12 +5,6 @@
 
 var HOSTNAME = window.location.hostname;
 var PROTOCOL = window.location.protocol;
-var BASE_URL = HOSTNAME;
-
-if (HOSTNAME == 'localhost' || HOSTNAME == '127.0.0.1')
-{
-    BASE_URL = PROTOCOL + "//" + HOSTNAME + "/opensource/phpCRUD/index.php/";
-}
 
 var app = angular.module("phpCrud", ["ui.bootstrap","ngRoute"]);
 
@@ -30,7 +24,7 @@ app.controller("tableData", function ($scope, $http, $location) {
             'data_type': data_type};
 
         $http({
-            url: BASE_URL + "crud_controller/edit",
+            url: BASE_URL + "/crud_controller/edit",
             method: "POST",
             data: $.param(data),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
@@ -45,7 +39,12 @@ app.controller("tableData", function ($scope, $http, $location) {
         });
         
     };
-
+    
+    /*
+    * @Author: Pratik Pathak
+    * @Desc: Added delete feature for each row
+    */
+    
     $scope.delete = function () {
         
         row = $scope.selected_row;
@@ -59,7 +58,7 @@ app.controller("tableData", function ($scope, $http, $location) {
                          };
 
         $http({
-            url: BASE_URL + "crud_controller/delete",
+            url: BASE_URL + "/crud_controller/delete",
             method: "POST",
             data: $.param(data),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
@@ -74,7 +73,12 @@ app.controller("tableData", function ($scope, $http, $location) {
         });
         
     };
-
+    
+    /*
+    * @Author: Pratik Pathak
+    * @Desc: saves selected row
+    */
+   
     $scope.setSelected = function (row) {
             
             $scope.selected_row = row;
