@@ -10,7 +10,7 @@ $table_data = $result['table_data'];
 $primary_key = $result['primary_key'];
 $primary_key_hidden = $result['primary_key_hidden'];
 $data_type = $result['data_type'];
-//print_r($result);exit;
+//print_r(json_encode($table_data));exit;
 ?>
 
 <div class="h1 container-fluid ">
@@ -32,6 +32,7 @@ $data_type = $result['data_type'];
          primary_key_hidden = <?php echo htmlspecialchars(json_encode($primary_key_hidden));?>;
          data_type = <?php echo htmlspecialchars(json_encode($data_type));?>;
          selected_row = false;">
+ 
     <div class="container-fluid">
     <div class='row'> 
         <div class=" form-inline col-lg-6">
@@ -48,10 +49,23 @@ $data_type = $result['data_type'];
                 </span>
             </div>
         </div>
+        <div class="col-lg-2">
+            <div class="text-right input-group">
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Download
+                    <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                      <li><a href="#" ng-click="exportAsCsv(results)">CSV</a></li>
+                      <li><a href="#">PDF (NA)</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
     </div>
-    <div class="table-responsive">
-        <table class="container table table-striped" ng-init="results = <?php echo htmlspecialchars(json_encode($table_data)); ?>;">
+    <div class="table-responsive" ng-init="results = <?php echo htmlspecialchars(json_encode($table_data)); ?>;">
+           
+        <table class="container table table-striped" id="php_crud_table_view" >
             <thead class="breadcrumb">
                 <?php foreach ($table_data as $table_value){?>
                 <tr>

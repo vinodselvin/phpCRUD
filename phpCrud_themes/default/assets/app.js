@@ -88,5 +88,94 @@ app.controller("tableData", function ($scope, $http, $location) {
 //	  var startPos = ($scope.page - 1) * 10;
 //	  console.log(filteredArray.length);
     };
+    
+    /*
+     * @Author: Vinod Selvin
+     * @param {type} table_id
+     * @returns {Boolean|Window|sa}
+     * @Desc: We may need it in future
+     */
+    $scope.downloadAsExcel = function(table_id){
+        
+        var tab_text="<table border='2px'><tr bgcolor='#87AFC6'>";
 
+        var j=0;
+
+        var tab = document.getElementById(table_id); // id of table
+
+        for(j = 0 ; j < tab.rows.length ; j++) 
+        {     console.log(tab_text+tab.rows[j].innerHTML);return false;
+            tab_text=tab_text+tab.rows[j].innerHTML+"</tr>";
+        }
+
+        tab_text=tab_text+"</table>";
+        tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
+        tab_text= tab_text.replace(/<img[^>]*>/gi,""); // remove if u want images in your table
+        tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
+
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf("MSIE "); 
+
+        if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      // If Internet Explorer
+        {
+            txtArea1.document.open("txt/html","replace");
+            txtArea1.document.write(tab_text);
+            txtArea1.document.close();
+            txtArea1.focus(); 
+            sa=txtArea1.document.execCommand("SaveAs",true,"Say Thanks to Sumit.xls");
+        }  
+        else                 //other browser not tested on IE 11
+            sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text));  
+
+        return (sa);
+    }
+    
+    /*
+     * @Author: Vinod Selvin
+     * @param {Array} Results
+     * @returns {file}
+     * @Desc: Export Array to CSV
+     */
+    $scope.exportAsCsv = function (Results) {
+        
+        var table_name = document.getElementById("table_name").value + ".csv";
+        
+        var file_name = prompt("Please choose the name for the file, to be downloaded!", table_name);
+        
+        if (file_name != null) {
+            
+            var csv = "";
+            var csv_head = "";
+            
+            Results.forEach(function (row, index) {
+                
+                csv_head = "";
+                
+                for (var col in row) {
+                    
+                    if(col != '$$hashKey'){
+                        csv_head += col + ',';
+                        csv      += row[col] + ',';
+                    }
+                }
+                
+                csv_head += "\r\n";
+                csv += "\r\n";
+            });
+            
+            csv = csv_head + csv;
+            
+            csv = "data:application/csv," + encodeURIComponent(csv);
+
+            var x = document.createElement("A");
+
+            x.setAttribute("href", csv);
+
+            x.setAttribute("download", table_name);
+
+            document.body.appendChild(x);
+
+            x.click();
+        }
+    }
 });
