@@ -8,7 +8,8 @@ class Crud_controller extends CI_Controller {
     public function index() {
         
         //$this->php_crud->select_column = array('parent_id','comment_name','comment_body');
-
+        $this->load->library("php_crud");
+        
         $this->php_crud->select_table('oauth_access_tokens');
 
         $data['result'] = $this->php_crud->render_output();

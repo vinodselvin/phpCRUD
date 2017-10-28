@@ -6,7 +6,7 @@ if (!defined('BASEPATH'))
  * @Author: Vinod Selvin
  * @Desc: Php Crud entire logic to be written here
  */
-class Php_crud extends CI_Loader{
+class Php_crud{
 
     public function __construct() {
 
