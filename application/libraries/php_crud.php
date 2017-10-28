@@ -6,13 +6,17 @@ if (!defined('BASEPATH'))
  * @Author: Vinod Selvin
  * @Desc: Php Crud entire logic to be written here
  */
-class Php_crud {
+class Php_crud extends CI_Loader{
 
     public function __construct() {
 
     }
     
-    public $select_column;
+    public $select_column = array();
+    
+    public $table_name = FALSE;
+    
+    public $theme = "default";
 
     /*
      * @Author: Vinod Selvin
@@ -20,6 +24,17 @@ class Php_crud {
      * @Params: $table_name-> Name of the Table.
      */
     public function select_table($table_name) {
+        
+        $this->table_name = $table_name;
+    }
+    
+    public function _select(){
+        
+        if(empty($this->table_name)){
+            echo "Please Select Table, see doc for more info";
+        }
+        
+        $table_name = $this->table_name;
         
         $CI = & get_instance();
 
@@ -118,5 +133,68 @@ class Php_crud {
         
         return $final_select;
     }
+    
+    function set_new_theme($theme){
+        
+        if(!empty($theme)){
+            $this->theme = $theme;
+        }
+        else{
+            exit("Please specify Valid theme");
+        }
+    }
+    
+    function render_output(){
+        
+        $browser_output = "";
+        
+        $data['result'] = $this->_select();
+
+        $browser_output .= $this->_phpcrud_view('phpCrud_themes/default/static/header', $data, true);
+        $browser_output .= $this->_phpcrud_view('phpCrud_themes/default/static/index', $data, true);
+        $browser_output .= $this->_phpcrud_view('phpCrud_themes/default/static/footer', $data, true);
+        
+        echo $browser_output;
+    }
+    
+    protected function _phpcrud_view($view, $vars = array(), $return = FALSE){
+        
+		$vars = (is_object($vars)) ? get_object_vars($vars) : $vars;
+
+		$file_exists = FALSE;
+
+		$ext = pathinfo($view, PATHINFO_EXTENSION);
+		$file = ($ext == '') ? $view.'.php' : $view;
+
+		if (file_exists($file))
+		{
+			$path = $file;
+			$file_exists = TRUE;
+		}
+
+		if ( ! $file_exists)
+		{
+			throw new Exception('Unable to load the requested file: '.$file, 16);
+		}
+
+		extract($vars);
+
+		#region buffering...
+		ob_start();
+
+		include($path);
+
+		$buffer = ob_get_contents();
+		@ob_end_clean();
+		#endregion
+
+		if ($return === TRUE)
+		{
+                    return $buffer;
+		}
+
+		$this->views_as_string .= $buffer;
+	}
+
 
 }

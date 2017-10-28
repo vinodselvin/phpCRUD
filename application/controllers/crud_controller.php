@@ -7,13 +7,14 @@ class Crud_controller extends CI_Controller {
 
     public function index() {
         
-        $this->php_crud->select_column = array('parent_id','comment_name','comment_body');
+        //$this->php_crud->select_column = array('parent_id','comment_name','comment_body');
 
-        $data['result'] = $this->php_crud->select_table('comment');
+
+        $this->php_crud->select_table('oauth_access_tokens');
+
+        $data['result'] = $this->php_crud->render_output();
         
-        $this->load->view('static/header', $data);
-        $this->load->view('crud_view', $data);
-        $this->load->view('static/footer', $data);
+        
     }
 
     public function edit_row() {
