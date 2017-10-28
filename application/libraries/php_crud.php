@@ -16,6 +16,8 @@ class Php_crud extends CI_Loader{
     
     public $table_name = FALSE;
     
+    public $theme_root = "phpCrud_themes/";
+    
     public $theme = "default";
 
     /*
@@ -137,7 +139,12 @@ class Php_crud extends CI_Loader{
     function set_new_theme($theme){
         
         if(!empty($theme)){
-            $this->theme = $theme;
+            if(file_exists($this->theme_root.$this->theme)){
+                $this->theme = $theme;
+            }
+            else{
+                exit("Specified theme doesnt Exist");
+            }
         }
         else{
             exit("Please specify Valid theme");
@@ -149,10 +156,12 @@ class Php_crud extends CI_Loader{
         $browser_output = "";
         
         $data['result'] = $this->_select();
+        
+        $theme['dir'] = $this->theme_root . $this->theme;
 
-        $browser_output .= $this->_phpcrud_view('phpCrud_themes/default/views/header', $data, true);
-        $browser_output .= $this->_phpcrud_view('phpCrud_themes/default/views/index', $data, true);
-        $browser_output .= $this->_phpcrud_view('phpCrud_themes/default/views/footer', $data, true);
+        $browser_output .= $this->_phpcrud_view($theme['dir'] . '/views/header', $theme, true);
+        $browser_output .= $this->_phpcrud_view($theme['dir'] . '/views/index', $data, true);
+        $browser_output .= $this->_phpcrud_view($theme['dir'] . '/views/footer', $theme, true);
         
         return $browser_output;
     }
