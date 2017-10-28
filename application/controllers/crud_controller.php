@@ -14,6 +14,7 @@ class Crud_controller extends CI_Controller {
 
         $data['result'] = $this->php_crud->render_output();
         
+        echo $data['result'];
         
     }
 

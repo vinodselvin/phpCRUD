@@ -150,11 +150,11 @@ class Php_crud extends CI_Loader{
         
         $data['result'] = $this->_select();
 
-        $browser_output .= $this->_phpcrud_view('phpCrud_themes/default/static/header', $data, true);
-        $browser_output .= $this->_phpcrud_view('phpCrud_themes/default/static/index', $data, true);
-        $browser_output .= $this->_phpcrud_view('phpCrud_themes/default/static/footer', $data, true);
+        $browser_output .= $this->_phpcrud_view('phpCrud_themes/default/views/header', $data, true);
+        $browser_output .= $this->_phpcrud_view('phpCrud_themes/default/views/index', $data, true);
+        $browser_output .= $this->_phpcrud_view('phpCrud_themes/default/views/footer', $data, true);
         
-        echo $browser_output;
+        return $browser_output;
     }
     
     protected function _phpcrud_view($view, $vars = array(), $return = FALSE){
