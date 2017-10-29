@@ -143,7 +143,7 @@ app.controller("tableData", function ($scope, $http, $location) {
      */
     $scope.exportAsCsv = function (Results) {
         
-        var table_name = document.getElementById("table_name").value + ".csv";
+        var table_name = document.getElementById("table_name").value;
         
         var file_name = prompt("Please choose the name for the file, to be downloaded!", table_name);
         
@@ -176,7 +176,7 @@ app.controller("tableData", function ($scope, $http, $location) {
 
             x.setAttribute("href", csv);
 
-            x.setAttribute("download", table_name);
+            x.setAttribute("download", file_name + ".csv");
 
             document.body.appendChild(x);
 
