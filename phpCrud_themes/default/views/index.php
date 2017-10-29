@@ -125,10 +125,10 @@ $data_type = $result['data_type'];
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Modal Header</h4>
+            <h4 class="modal-title">Update Data</h4>
           </div>
-          <div class="modal-body">
-            <p>This is a large modal.</p>
+          <div class="modal-body" id="edit_modal_body">
+          
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

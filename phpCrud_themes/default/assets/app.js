@@ -32,6 +32,11 @@ app.controller("tableData", function ($scope, $http, $location) {
         .then(function successCallback(response)
         {
             console.log(response);
+           data_input = JSON.stringify(response.data);
+           json2Html('edit_row').setJson(data_input);
+           json2Html('edit_row').getHtml(function (html) {
+                document.getElementById("edit_modal_body").innerHTML=html;
+            });
         }
         , function errorCallback(response)
         {

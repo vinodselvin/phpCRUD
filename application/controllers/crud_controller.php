@@ -20,9 +20,28 @@ class Crud_controller extends CI_Controller {
 
     public function edit_row() {
         $data = $this->input->post();
-        print_r($data);
-        exit;
-        echo json_encode($data);
+
+        //generate form input elements
+        $response_data = $this->_generateEditTemplate($data);
+
+        array_push($response_data, array(
+                "tag" => "button",
+                "class" => "btn btn-warning",
+                "id"  => "form-btn-update",
+                "html" => "Update"
+            ));
+
+
+        $result_array = array(
+            array(
+                "tag" => "form",
+                "id"  => "edit-form",
+                "_child" => $response_data
+            )
+        );
+        
+        echo json_encode($result_array);
+
     }
 
     public function delete_row() {
@@ -44,6 +63,33 @@ class Crud_controller extends CI_Controller {
             $this->php_crud_model->deleteRowWithPK($table_name, $primary_key, $row);
         }
         
+    }
+
+    public function _generateEditTemplate($data){
+
+        foreach ($data['row'] as $key => $value) {
+            $template[] = array(
+                "tag" => "div",
+                "class" => "form-group",
+                "_child" => array(
+                                array(
+                                    "tag" => "label",
+                                    "class" => "form-label",
+                                    "html" =>  $key),  
+
+                                        array(
+                                            "tag" => "input",
+                                            "value" => $value,
+                                            "type" => "text",
+                                            "id"  => "edit-id-".$key,
+                                            "class" => "form-control",
+                                        )
+                            )
+            
+            );
+        }
+
+        return $template;
     }
 
 }
