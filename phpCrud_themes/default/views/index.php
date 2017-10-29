@@ -50,9 +50,9 @@ $data_type = $result['data_type'];
             </div>
         </div>
         <div class="col-lg-2">
-            <div class="text-right input-group">
+            <div class="text-right input-group pull-right m-t-0">
                 <div class="dropdown">
-                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Download
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Download
                     <span class="caret"></span></button>
                     <ul class="dropdown-menu">
                       <li><a href="#" ng-click="exportAsCsv(results)">CSV</a></li>
@@ -63,7 +63,7 @@ $data_type = $result['data_type'];
         </div>
     </div>
     </div>
-    <div class="table-responsive" ng-init="results = <?php echo htmlspecialchars(json_encode($table_data)); ?>;">
+    <div class="table-responsive" ng-init="results = <?php echo htmlspecialchars(json_encode($table_data)); ?>; max_in_page = 10">
            
         <table class="container table table-striped" id="php_crud_table_view" >
             <thead class="breadcrumb">
@@ -103,7 +103,7 @@ $data_type = $result['data_type'];
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="row in filterData = (results | filter : searchBy : strict) | limitTo:10:10*(page-1)" >
+                <tr ng-repeat="row in filterData = (results | filter : searchBy : strict) | limitTo:max_in_page:max_in_page*(page-1)" >
                     <td ng-repeat="(key,col) in row track by $index" ng-hide="(key == primary_key) && (primary_key_hidden == 'true')">
                         {{col}}
                     </td>
@@ -156,15 +156,31 @@ $data_type = $result['data_type'];
     </div>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-5 text-sm-center">
+            <div class="col-sm-9 text-sm-center">
                 <uib-pagination  class="pagination" total-items="filterData.length" 
                 ng-model="page"
                 ng-change="pageChanged()" 
                 previous-text="&lsaquo;" 
                 next-text="&rsaquo;" 
-                items-per-page=10>
+                items-per-page = "max_in_page">
                     
                 </uib-pagination>
+            </div>
+            <div class="col-sm-3 text-sm-center">
+                <div class="dropup pull-right">
+                    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Rows per page
+                    <span class="caret"></span></button>
+                    <ul class="dropdown-menu dropup">
+                        <li><a href="#" ng-click="max_in_page = 1">1</a></li>
+                        <li><a href="#" ng-click="max_in_page = 2">2</a></li>
+                        <li><a href="#" ng-click="max_in_page = 5">5</a></li>
+                        <li><a href="#" ng-click="max_in_page = 10">10</a></li>
+                        <li><a href="#" ng-click="max_in_page = 20">20</a></li>
+                        <li><a href="#" ng-click="max_in_page = 30">30</a></li>
+                        <li><a href="#" ng-click="max_in_page = 40">40</a></li>
+                        <li><a href="#" ng-click="max_in_page = 40">50</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
