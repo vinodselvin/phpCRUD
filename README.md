@@ -39,7 +39,7 @@ $db['default']['database'] = 'phpcrud';
 
      4.1. Load our library
      ```html
-     $this->load->library("php_crud"); //Load our library
+     $this->load->library("php_crud"); 
      ```
 
      4.2. Select the table which you want to see CRUD View
