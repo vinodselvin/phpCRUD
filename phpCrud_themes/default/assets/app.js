@@ -184,4 +184,27 @@ app.controller("tableData", function ($scope, $http, $location) {
             x.click();
         }
     }
+    
+    /*
+    * @Author: Pratik Pathak
+    * @Desc: selects all rows
+    */
+   
+    $scope.selectAllRows = function () {
+
+        var selectAll = angular.element('.selectAll');
+        var allRows = angular.element('.all-rows');
+
+        if (selectAll.is(':checked'))
+        {
+            allRows.attr('checked', false);
+            allRows.trigger('click');
+        }
+        else
+        {
+            allRows.attr('checked', false);
+        }
+
+    };
+    
 });
