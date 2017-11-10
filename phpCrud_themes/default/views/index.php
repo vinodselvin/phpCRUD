@@ -89,6 +89,9 @@ $data_type = $result['data_type'];
                 </tr >
                 <?php break;}?>
                 <tr ng-repeat="row in results | limitTo : 1" class='bg-primary text-white'>
+                    <td>
+                        <input type="checkbox" ng-click="selectAllRows()" >
+                    </td>
                     <th ng-repeat="(key, value) in row" ng-hide="(primary_key_hidden == 'true' && primary_key == key)">
                         <span ng-if="primary_key == key" style="color:burlywood" title='Primay Key'>
                           {{key}}
@@ -104,6 +107,9 @@ $data_type = $result['data_type'];
             </thead>
             <tbody>
                 <tr ng-repeat="row in filterData = (results | filter : searchBy : strict) | limitTo:max_in_page:max_in_page*(page-1)" >
+                    <td>
+                        <input type="checkbox" class="all-rows" data-select="{{row}}">
+                    </td>
                     <td ng-repeat="(key,col) in row track by $index" ng-hide="(key == primary_key) && (primary_key_hidden == 'true')">
                         {{col}}
                     </td>
