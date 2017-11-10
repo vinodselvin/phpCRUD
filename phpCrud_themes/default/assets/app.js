@@ -190,9 +190,20 @@ app.controller("tableData", function ($scope, $http, $location) {
     */
    
     $scope.selectAllRows = function () {
-           
-           angular.element('.all-rows').trigger('click');
-           
+
+        var selectAll = angular.element('.selectAll');
+        var allRows = angular.element('.all-rows');
+
+        if (selectAll.is(':checked'))
+        {
+            allRows.attr('checked', false);
+            allRows.trigger('click');
+        }
+        else
+        {
+            allRows.attr('checked', false);
+        }
+
     };
     
 });

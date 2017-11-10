@@ -90,7 +90,7 @@ $data_type = $result['data_type'];
                 <?php break;}?>
                 <tr ng-repeat="row in results | limitTo : 1" class='bg-primary text-white'>
                     <td>
-                        <input type="checkbox" ng-click="selectAllRows()" >
+                        <input type="checkbox" ng-click="selectAllRows()" class="selectAll">
                     </td>
                     <th ng-repeat="(key, value) in row" ng-hide="(primary_key_hidden == 'true' && primary_key == key)">
                         <span ng-if="primary_key == key" style="color:burlywood" title='Primay Key'>
