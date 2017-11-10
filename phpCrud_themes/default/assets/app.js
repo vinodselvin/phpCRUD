@@ -70,6 +70,7 @@ app.controller("tableData", function ($scope, $http, $location) {
         })
         .then(function successCallback(response)
         {
+            alert("Successfully Deleted");
             location.reload();
         }
         , function errorCallback(response)
