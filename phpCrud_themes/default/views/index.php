@@ -205,7 +205,11 @@ $data_type = $result['data_type'];
       </div>
     </div>-->
 </div>
+<div class="chart-wrapper" id="chart-line1">
+    
+</div>
 <?php } ?>
 <script>
     var BASE_URL = "<?php echo base_url('index.php'); ?>" ;
+
 </script>

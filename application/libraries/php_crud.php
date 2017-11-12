@@ -20,6 +20,8 @@ class Php_crud{
     
     public $theme = "default";
 
+    public $add_graph = array('type' => false, 'cols' => array());
+
     /*
      * @Author: Vinod Selvin
      * @Desc: Returns Selected table. 
@@ -159,11 +161,83 @@ class Php_crud{
         
         $theme['dir'] = $this->theme_root . $this->theme;
 
+        $theme['js'] = array();
+        $theme['css'] = array();
+        $theme['cdn'] = array();
+
+        if(!empty($this->add_graph['type'])){
+            
+            $graph = $this->_generateGraph($data['result']);
+
+            $theme['js'] = array_merge($theme['js'], $graph['js']);
+            $theme['css'] = array_merge($theme['css'], $graph['css']);
+            $theme['cdn'] = array_merge($theme['cdn'], $graph['cdn']);
+
+            $data['graph'] = $this->add_graph;
+            $data['graph_data'] = $graph;
+        }
+
         $browser_output .= $this->_phpcrud_view($theme['dir'] . '/views/header', $theme, true);
         $browser_output .= $this->_phpcrud_view($theme['dir'] . '/views/index', $data, true);
         $browser_output .= $this->_phpcrud_view($theme['dir'] . '/views/footer', $theme, true);
-        
+        $browser_output .= $this->_phpcrud_view($theme['dir'] . '/views/custom_footer', $data, true);
+
         return $browser_output;
+    }
+
+    function _generateGraph($data){
+
+        $graph_requirement = $this->add_graph;
+
+        $type = $graph_requirement['type'];
+
+        $graph_data = array();
+
+        switch ($type) {
+            case 'multiline':
+                    $graph_data['js'] = array(
+                        // '/assets/d3/d3.v3.min.js',
+                        '/assets/d3/multiline/multiline.js');
+                    $graph_data['css'] = array(
+                        '/assets/d3/multiline/multiline.css');
+                    $graph_data['multiline'] = $this->_getMultilineGraph($data['table_data'], $graph_requirement['cols']);
+                    
+                break;
+            
+            default:
+                break;
+        }
+
+        return $graph_data;
+    }
+
+    function _getMultilineGraph($data, $cols){
+
+        if(!empty($cols)){
+            if(is_string($cols)){
+                $cols = explode(",", $cols);
+            }
+
+            if(is_array($cols)){
+
+                $csv = implode(",", $cols) . "\n";
+
+                foreach ($data as $key => $value) {
+
+                    $ecsv = array();
+
+                    foreach ($cols as $key2 => $value2) {
+
+                        $ecsv[] = $value[$value2];
+                    }
+
+                    $csv .= implode(",", $ecsv) . "\n";
+
+                }
+            }
+        }
+
+        return $csv;
     }
     
     protected function _phpcrud_view($view, $vars = array(), $return = FALSE){
