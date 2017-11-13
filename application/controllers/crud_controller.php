@@ -17,6 +17,19 @@ class Crud_controller extends CI_Controller {
         echo $data['result'];
         
     }
+    
+    public function testGraph(){
+        
+        $this->load->library("php_crud");
+        
+        $this->php_crud->select_table('mytable');
+        
+        $this->php_crud->add_graph = array('type'=> 'multiline', 'cols' => array('year','programming','biology','maths','physics'));
+
+        $data['result'] = $this->php_crud->render_output();
+        
+        echo $data['result'];
+    }
 
     public function edit_row() {
         $data = $this->input->post();
