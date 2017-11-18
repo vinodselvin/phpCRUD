@@ -116,6 +116,7 @@ class Php_crud_model extends CI_Model {
         
         $this->db->delete($table_name);
         
+        return $this->db->affected_rows();
     }
     
      /*
@@ -131,6 +132,7 @@ class Php_crud_model extends CI_Model {
         
         $this->db->delete($table_name);
         
+        return $this->db->affected_rows();
     }
 	
 	/*
@@ -141,14 +143,15 @@ class Php_crud_model extends CI_Model {
      *                 $row-> row to be deleted.
      */
     
-    public function updateRowWithData($table_name, $row){
+    public function updateRowWithData($table_name, $row, $actual_row){
         
-        foreach ($row as $key => $value) {
-			
-            $this->db->update( $table_name, $row );
-            
+        foreach ($actual_row as $key => $value) {
+            $this->db->where( $key, $value );
         }
         
+        $this->db->limit(1);
+
+        return $this->db->update($table_name, $row);
     }
 	
      /*
@@ -156,14 +159,15 @@ class Php_crud_model extends CI_Model {
      * @Desc: Update record in table with Primary Key
      * @Params: $table_name-> Name of the table
      * 			$primary_key-> Primary Key of the table
-     *                 $row-> row to be deleted.
+     *          $row-> row to be deleted.
      */
     
-    public function updateRowWithPK($table_name, $primary_key, $row){
+    public function updateRowWithPK($table_name, $primary_key, $row, $actual_row){
+
+        $this->db->where( $primary_key, $actual_row[$primary_key] );
         
-        $this->db->where( $primary_key, $row[$primary_key] );
-        
-        $this->db->delete($table_name);
-        
+        unset($row[$primary_key]);
+
+        return $this->db->update($table_name, $row);
     }
 }

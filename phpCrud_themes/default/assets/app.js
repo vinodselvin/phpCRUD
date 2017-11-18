@@ -9,13 +9,12 @@ var PROTOCOL = window.location.protocol;
 var app = angular.module("phpCrud", ["ui.bootstrap","ngRoute"]);
 
 //var app = angular.module('phpCrud', ['ngAria', 'ngMaterial', 'miniapp', 'ngAnimate', 'ui.bootstrap', 'ngSanitize']);
-app.controller("tableData", function ($scope, $http, $location) {
+app.controller("tableData", function ($scope, $http, $location, $compile) {
 
     $scope.page = 1;
 
     $scope.edit = function (row, primary_key, data_type) {
             
-        console.log(data_type);
         delete row.$$hashKey;
 
         var data = {'table_name': angular.element('#table_name').val(),
@@ -31,17 +30,17 @@ app.controller("tableData", function ($scope, $http, $location) {
         })
         .then(function successCallback(response)
         {
-            console.log(response);
 			var this_scope = angular.element("#editModal").scope();
-				
+			
+            $scope.setSelected(row);
 				
 			data_input = JSON.stringify(response.data);
 			   json2Html('edit_row').setJson(data_input);
 			   json2Html('edit_row').getHtml(function (html) {
-					//document.getElementById("edit_modal_body").innerHTML=html;
-					this_scope.edit_modal = html;
+                    var compiledHtml = $compile(html)($scope);
+					document.getElementById("edit_modal_body").innerHTML = "";
+                    angular.element(document.getElementById('edit_modal_body')).append(compiledHtml);
 				});	
-			//this_scope.$apply();
            
         }
         , function errorCallback(response)
@@ -58,15 +57,15 @@ app.controller("tableData", function ($scope, $http, $location) {
     
     $scope.delete = function () {
         
-        row = $scope.selected_row;
-        pk = $scope.primary_key;
+        var row = $scope.selected_row;
+        var pk = $scope.primary_key;
         delete row.$$hashKey;
         
         var data = {
-                            'table_name': angular.element('#table_name').val(),
-                            'row': row,
-                            'primary_key': $scope.primary_key
-                         };
+            'table_name': angular.element('#table_name').val(),
+            'row': row,
+            'primary_key': $scope.primary_key
+         };
 
         $http({
             url: BASE_URL + "/crud_controller/delete",
@@ -76,7 +75,7 @@ app.controller("tableData", function ($scope, $http, $location) {
         })
         .then(function successCallback(response)
         {
-            alert("Successfully Deleted");
+            alert(response.data.message);
             location.reload();
         }
         , function errorCallback(response)
@@ -198,16 +197,24 @@ app.controller("tableData", function ($scope, $http, $location) {
     
     $scope.update = function () {
         
-        row = $scope.selected_row;
-        pk = $scope.primary_key;
+        var row = $scope.selected_row;
+        var pk = $scope.primary_key;
 		delete row.$$hashKey;
         
-        
+        var form_data = angular.element("#edit-form").serializeArray();
+
+        var processed_form_data = {};
+
+        for(var x in form_data){
+            processed_form_data[form_data[x]['name']] = form_data[x]['value'];
+        }
+
         var data = {
-                            'table_name': angular.element('#table_name').val(),
-                            'row': row,
-                            'primary_key': $scope.primary_key
-                         };
+            'table_name': angular.element('#table_name').val(),
+            'row': processed_form_data,
+            'actual_row': row,
+            'primary_key': $scope.primary_key
+         };
 
         $http({
             url: BASE_URL + "/crud_controller/update",
@@ -217,7 +224,8 @@ app.controller("tableData", function ($scope, $http, $location) {
         })
         .then(function successCallback(response)
         {
-            console.log(response);
+            alert(response.data.message);
+            location.reload();
         }
         , function errorCallback(response)
         {
@@ -251,3 +259,9 @@ app.controller("tableData", function ($scope, $http, $location) {
     
 
 });
+
+// $(document).on("click", "#form-btn-update", function(e){
+//     e.preventDefault();
+
+//     alert("aaya");
+// });

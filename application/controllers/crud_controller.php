@@ -44,6 +44,7 @@ class Crud_controller extends CI_Controller {
                 "class" => "btn btn-warning",
                 "id"  => "form-btn-update",
 				"ng-model" => "update",
+                "ng-click" => "update()",
                 "html" => "Update"
             ));
 
@@ -72,12 +73,23 @@ class Crud_controller extends CI_Controller {
         
         if(empty($primary_key))
         {
-            $this->php_crud_model->deleteRowWithData($table_name, $row);
+            $is_deleted = $this->php_crud_model->deleteRowWithData($table_name, $row);
         }
         else 
         {
-            $this->php_crud_model->deleteRowWithPK($table_name, $primary_key, $row);
+            $is_deleted = $this->php_crud_model->deleteRowWithPK($table_name, $primary_key, $row);
         }
+
+        if($is_deleted){
+            $response['error'] = false;
+            $response['message'] = "Successfully! deleted selected row";
+        }
+        else{
+            $response['error'] = true;
+            $response['message'] = "Error Occured! Configuration Issue, with table";
+        }
+            
+        echo json_encode($response);
         
     }
 	
@@ -90,17 +102,29 @@ class Crud_controller extends CI_Controller {
         $table_name = $data['table_name'];
         $row = $data['row'];
         $primary_key = $data['primary_key'];
-        var_dump($primary_key);
-		exit;
+        $actual_row = $data['actual_row'];
+        
+        $response = array();
+
         if(empty($primary_key))
         {
-            $this->php_crud_model->updateRowWithData($table_name, $row);
+            $is_updated = $this->php_crud_model->updateRowWithData($table_name, $row, $actual_row);
         }
         else 
         {
-            $this->php_crud_model->updateRowWithPK($table_name, $primary_key, $row);
+            $is_updated = $this->php_crud_model->updateRowWithPK($table_name, $primary_key, $row, $actual_row);
         }
         
+        if($is_updated == true){
+            $response['error'] = false;
+            $response['message'] = "Successfully! updated";
+        }
+        else{
+            $response['error'] = true;
+            $response['message'] = "Error Occured! Configuration Issue";
+        }
+            
+        echo json_encode($response);
     }
 
     public function _generateEditTemplate($data){
@@ -118,6 +142,7 @@ class Crud_controller extends CI_Controller {
                                         array(
                                             "tag" => "input",
                                             "value" => $value,
+                                            "name" => $key,
                                             "type" => "text",
                                             "id"  => "edit-id-".$key,
                                             "class" => "form-control",
