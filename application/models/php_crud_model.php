@@ -132,5 +132,38 @@ class Php_crud_model extends CI_Model {
         $this->db->delete($table_name);
         
     }
+	
+	/*
+     * @Author: Manoj Selvin
+     * @Desc: Update record in table with data
+      * @For: For Tables without Primary Key
+     * @Params: $table_name-> Name of the table
+     *                 $row-> row to be deleted.
+     */
     
+    public function updateRowWithData($table_name, $row){
+        
+        foreach ($row as $key => $value) {
+			
+            $this->db->update( $table_name, $row );
+            
+        }
+        
+    }
+	
+     /*
+     * @Author: Manoj Selvin
+     * @Desc: Update record in table with Primary Key
+     * @Params: $table_name-> Name of the table
+     * 			$primary_key-> Primary Key of the table
+     *                 $row-> row to be deleted.
+     */
+    
+    public function updateRowWithPK($table_name, $primary_key, $row){
+        
+        $this->db->where( $primary_key, $row[$primary_key] );
+        
+        $this->db->delete($table_name);
+        
+    }
 }

@@ -32,11 +32,17 @@ app.controller("tableData", function ($scope, $http, $location) {
         .then(function successCallback(response)
         {
             console.log(response);
-           data_input = JSON.stringify(response.data);
-           json2Html('edit_row').setJson(data_input);
-           json2Html('edit_row').getHtml(function (html) {
-                document.getElementById("edit_modal_body").innerHTML=html;
-            });
+			var this_scope = angular.element("#editModal").scope();
+				
+				
+			data_input = JSON.stringify(response.data);
+			   json2Html('edit_row').setJson(data_input);
+			   json2Html('edit_row').getHtml(function (html) {
+					//document.getElementById("edit_modal_body").innerHTML=html;
+					this_scope.edit_modal = html;
+				});	
+			//this_scope.$apply();
+           
         }
         , function errorCallback(response)
         {
@@ -183,4 +189,39 @@ app.controller("tableData", function ($scope, $http, $location) {
             x.click();
         }
     }
+	
+	/*
+    * @Author: Manoj Selvin
+    * @Desc: Added Update feature for each row
+    */
+    
+    $scope.update = function () {
+        
+        row = $scope.selected_row;
+        pk = $scope.primary_key;
+		delete row.$$hashKey;
+        
+        
+        var data = {
+                            'table_name': angular.element('#table_name').val(),
+                            'row': row,
+                            'primary_key': $scope.primary_key
+                         };
+
+        $http({
+            url: BASE_URL + "/crud_controller/update",
+            method: "POST",
+            data: $.param(data),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        })
+        .then(function successCallback(response)
+        {
+            console.log(response);
+        }
+        , function errorCallback(response)
+        {
+
+        });
+        
+    };
 });

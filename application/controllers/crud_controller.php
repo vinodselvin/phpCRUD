@@ -28,6 +28,7 @@ class Crud_controller extends CI_Controller {
                 "tag" => "button",
                 "class" => "btn btn-warning",
                 "id"  => "form-btn-update",
+				"ng-model" => "update",
                 "html" => "Update"
             ));
 
@@ -61,6 +62,28 @@ class Crud_controller extends CI_Controller {
         else 
         {
             $this->php_crud_model->deleteRowWithPK($table_name, $primary_key, $row);
+        }
+        
+    }
+	
+	public function update() {
+        
+        $this->load->model('php_crud_model');
+
+        $data = $this->input->post();
+
+        $table_name = $data['table_name'];
+        $row = $data['row'];
+        $primary_key = $data['primary_key'];
+        var_dump($primary_key);
+		exit;
+        if(empty($primary_key))
+        {
+            $this->php_crud_model->updateRowWithData($table_name, $row);
+        }
+        else 
+        {
+            $this->php_crud_model->updateRowWithPK($table_name, $primary_key, $row);
         }
         
     }
