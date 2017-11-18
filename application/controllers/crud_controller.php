@@ -10,12 +10,27 @@ class Crud_controller extends CI_Controller {
         //$this->php_crud->select_column = array('parent_id','comment_name','comment_body');
         $this->load->library("php_crud");
         
+        $this->php_crud->add_graph = array('type'=>'multiline', 'cols' => array('date', 'query', 'preference'));
+
         $this->php_crud->select_table('user_data');
 
         $data['result'] = $this->php_crud->render_output();
         
         echo $data['result'];
         
+    }
+    
+    public function testGraph(){
+        
+        $this->load->library("php_crud");
+        
+        $this->php_crud->select_table('mytable');
+        
+        $this->php_crud->add_graph = array('type'=> 'multiline', 'cols' => array('year','programming','biology','maths','physics'));
+
+        $data['result'] = $this->php_crud->render_output();
+        
+        echo $data['result'];
     }
 
     public function edit_row() {

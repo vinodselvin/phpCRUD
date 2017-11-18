@@ -65,10 +65,10 @@ $data_type = $result['data_type'];
     </div>
     <div class="table-responsive" ng-init="results = <?php echo htmlspecialchars(json_encode($table_data)); ?>; max_in_page = 10">
            
-        <table class="container table table-striped" id="php_crud_table_view" >
+        <table class="container table table-hover" id="php_crud_table_view" >
             <thead class="breadcrumb">
-                <?php foreach ($table_data as $table_value){?>
-                <tr>
+                <?php //foreach ($table_data as $table_value){?>
+                <!--tr>
                     <?php foreach ($table_value as $col_name => $col_value){?>
                         <?php if(($col_name == $primary_key && $primary_key_hidden == 'true')){}else{?>
                     
@@ -86,9 +86,12 @@ $data_type = $result['data_type'];
                         <?php } ?>
                     <?php } ?>
                     <td colspan="2"></td>
-                </tr >
-                <?php break;}?>
+                </tr-->
+                <?php //break;}?>
                 <tr ng-repeat="row in results | limitTo : 1" class='bg-primary text-white'>
+                    <th class="text-center">
+                        <input type="checkbox" ng-click="selectAllRows()" class="selectAll">
+                    </th>
                     <th ng-repeat="(key, value) in row" ng-hide="(primary_key_hidden == 'true' && primary_key == key)">
                         <span ng-if="primary_key == key" style="color:burlywood" title='Primay Key'>
                           {{key}}
@@ -97,21 +100,22 @@ $data_type = $result['data_type'];
                           {{key}}
                         </span>
                     </th>
-                    <th colspan="2">
-                        Control
+                    <th class="w-100px">
+                        <!-- Control -->
                     </th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="row in filterData = (results | filter : searchBy : strict) | limitTo:max_in_page:max_in_page*(page-1)" >
+                    <td class="text-center">
+                        <input type="checkbox" class="all-rows" data-select="{{row}}">
+                    </td>
                     <td ng-repeat="(key,col) in row track by $index" ng-hide="(key == primary_key) && (primary_key_hidden == 'true')">
                         {{col}}
                     </td>
                     <td>
                         <button class="btn btn-primary glyphicon glyphicon-edit" ng-click="edit(row, row[primary_key], data_type)" data-toggle="modal" data-target="#editModal">
                         </button>
-                    </td>
-                    <td>
                         <button class="btn btn-danger glyphicon glyphicon-trash" ng-click="setSelected(row)" data-toggle="modal" data-target="#delModal">
                         </button>
                     </td>
@@ -199,7 +203,11 @@ $data_type = $result['data_type'];
       </div>
     </div>-->
 </div>
+<div class="chart-wrapper" id="chart-line1">
+    
+</div>
 <?php } ?>
 <script>
     var BASE_URL = "<?php echo base_url('index.php'); ?>" ;
+
 </script>

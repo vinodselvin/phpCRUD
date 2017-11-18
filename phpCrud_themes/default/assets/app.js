@@ -76,6 +76,7 @@ app.controller("tableData", function ($scope, $http, $location) {
         })
         .then(function successCallback(response)
         {
+            alert("Successfully Deleted");
             location.reload();
         }
         , function errorCallback(response)
@@ -149,7 +150,7 @@ app.controller("tableData", function ($scope, $http, $location) {
      */
     $scope.exportAsCsv = function (Results) {
         
-        var table_name = document.getElementById("table_name").value + ".csv";
+        var table_name = document.getElementById("table_name").value;
         
         var file_name = prompt("Please choose the name for the file, to be downloaded!", table_name);
         
@@ -182,7 +183,7 @@ app.controller("tableData", function ($scope, $http, $location) {
 
             x.setAttribute("href", csv);
 
-            x.setAttribute("download", table_name);
+            x.setAttribute("download", file_name + ".csv");
 
             document.body.appendChild(x);
 
@@ -224,4 +225,29 @@ app.controller("tableData", function ($scope, $http, $location) {
         });
         
     };
+
+    
+    /*
+    * @Author: Pratik Pathak
+    * @Desc: selects all rows
+    */
+   
+    $scope.selectAllRows = function () {
+
+        var selectAll = angular.element('.selectAll');
+        var allRows = angular.element('.all-rows');
+
+        if (selectAll.is(':checked'))
+        {
+            allRows.attr('checked', false);
+            allRows.trigger('click');
+        }
+        else
+        {
+            allRows.attr('checked', false);
+        }
+
+    };
+    
+
 });

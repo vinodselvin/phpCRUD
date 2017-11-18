@@ -42,6 +42,7 @@ $route['default_controller'] = "crud_controller";
 $route['404_override'] = '';
 $route['crud_controller/edit']="crud_controller/edit_row";
 $route['crud_controller/delete']="crud_controller/delete_row";
+$route['graph']="crud_controller/testGraph";
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
