@@ -35,12 +35,17 @@ app.controller("tableData", function ($scope, $http, $location, $compile) {
             $scope.setSelected(row);
 				
 			data_input = JSON.stringify(response.data);
-			   json2Html('edit_row').setJson(data_input);
-			   json2Html('edit_row').getHtml(function (html) {
-                    var compiledHtml = $compile(html)($scope);
-					document.getElementById("edit_modal_body").innerHTML = "";
-                    angular.element(document.getElementById('edit_modal_body')).append(compiledHtml);
-				});	
+
+    		json2Html('edit_row').setJson(data_input);
+
+    		json2Html('edit_row').getHtml(function (html) {
+
+                var compiledHtml = $compile(html)($scope);
+
+    			document.getElementById("edit_modal_body").innerHTML = "";
+
+                angular.element(document.getElementById('edit_modal_body')).append(compiledHtml);
+    		});	
            
         }
         , function errorCallback(response)
@@ -190,7 +195,7 @@ app.controller("tableData", function ($scope, $http, $location, $compile) {
         }
     }
 	
-	/*
+   /*
     * @Author: Manoj Selvin
     * @Desc: Added Update feature for each row
     */
@@ -256,7 +261,81 @@ app.controller("tableData", function ($scope, $http, $location, $compile) {
         }
 
     };
+
+    /*
+     * @Author: Vinod Selvin
+     * @Desc: Open Add Record Modal and generate Template HTML
+     */
+    $scope.openAddRecordModal = function(){
+
+        data_input = JSON.stringify($scope.insert_record_data);
+
+        json2Html('add_row').setJson(data_input);
+
+        json2Html('add_row').getHtml(function (html) {
+
+            var compiledHtml = $compile(html)($scope);
+
+            document.getElementById("add_modal_body").innerHTML = "";
+
+            angular.element(document.getElementById('add_modal_body')).append(compiledHtml);
+        });
+
+        angular.element("#addModal").modal();
+    };
     
+    /*
+    * @Author: Vinod Selvin
+    * @Desc: Add New Record
+    */
+    
+    $scope.addRow = function () {
+        
+        var pk = $scope.primary_key;
+        
+        var form_data = angular.element("#add-form").serializeArray();
+
+        var processed_form_data = {};
+
+        var flag = false;
+
+        for(var x in form_data){
+
+            if(form_data[x]['value'].toString().trim()){
+                flag = true;
+            }
+
+            processed_form_data[form_data[x]['name']] = form_data[x]['value'];
+        }
+
+        if(!flag){
+            alert("New Record Cannot be inserted, with empty data");
+            return false;
+        }
+
+        var data = {
+            'table_name': angular.element('#table_name').val(),
+            'row': processed_form_data,
+            'primary_key': $scope.primary_key
+         };
+
+        $http({
+            url: BASE_URL + "/crud_controller/insert",
+            method: "POST",
+            data: $.param(data),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        })
+        .then(function successCallback(response)
+        {
+            alert(response.data.message);
+            location.reload();
+        }
+        , function errorCallback(response)
+        {
+
+        });
+        
+    };
 
 });
 

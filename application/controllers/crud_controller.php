@@ -10,7 +10,7 @@ class Crud_controller extends CI_Controller {
         //$this->php_crud->select_column = array('parent_id','comment_name','comment_body');
         $this->load->library("php_crud");
         
-        $this->php_crud->add_graph = array('type'=>'multiline', 'cols' => array('date', 'query', 'preference'));
+        // $this->php_crud->add_graph = array('type'=>'multiline', 'cols' => array('date', 'query', 'preference'));
 
         $this->php_crud->select_table('user_data');
 
@@ -36,28 +36,12 @@ class Crud_controller extends CI_Controller {
     public function edit_row() {
         $data = $this->input->post();
 
+        $this->load->library("php_crud");
+
         //generate form input elements
-        $response_data = $this->_generateEditTemplate($data);
+        $response_data = $this->php_crud->getEditTemplate($data);
 
-        array_push($response_data, array(
-                "tag" => "button",
-                "class" => "btn btn-warning",
-                "id"  => "form-btn-update",
-				"ng-model" => "update",
-                "ng-click" => "update()",
-                "html" => "Update"
-            ));
-
-
-        $result_array = array(
-            array(
-                "tag" => "form",
-                "id"  => "edit-form",
-                "_child" => $response_data
-            )
-        );
-        
-        echo json_encode($result_array);
+        echo json_encode($response_data);
 
     }
 
@@ -127,32 +111,35 @@ class Crud_controller extends CI_Controller {
         echo json_encode($response);
     }
 
-    public function _generateEditTemplate($data){
+    public function insert() {
+        
+        $this->load->model('php_crud_model');
 
-        foreach ($data['row'] as $key => $value) {
-            $template[] = array(
-                "tag" => "div",
-                "class" => "form-group",
-                "_child" => array(
-                                array(
-                                    "tag" => "label",
-                                    "class" => "form-label",
-                                    "html" =>  $key),  
+        $data = $this->input->post();
+        
+        $table_name = $data['table_name'];
+        $row = $data['row'];
+        $primary_key = $data['primary_key'];
+        
+        $response = array();
 
-                                        array(
-                                            "tag" => "input",
-                                            "value" => $value,
-                                            "name" => $key,
-                                            "type" => "text",
-                                            "id"  => "edit-id-".$key,
-                                            "class" => "form-control",
-                                        )
-                            )
-            
-            );
+        if(!empty($primary_key))
+        {
+            unset($row[$primary_key]);
         }
-
-        return $template;
+        
+        $is_inserted = $this->php_crud_model->insertNewRecord($table_name, $row);
+        
+        if($is_inserted == true){
+            $response['error'] = false;
+            $response['message'] = "Successfully! Added New Row";
+        }
+        else{
+            $response['error'] = true;
+            $response['message'] = "Error Occured! Configuration Issue";
+        }
+            
+        echo json_encode($response);
     }
 
 }

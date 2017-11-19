@@ -104,6 +104,8 @@ class Php_crud{
         
         $final_result['table_data'] = $result['data'];
         
+        $final_result['insert_record_template'] = $this->getInsertTemplate($result);
+
         $final_result['table_name'] = $table_name;
 
         return ($final_result);
@@ -279,5 +281,80 @@ class Php_crud{
 		$this->views_as_string .= $buffer;
 	}
 
+    public function _generateTemplate($data){
+
+        foreach ($data['row'] as $key => $value) {
+
+            $template[] = array(
+                "tag" => "div",
+                "class" => "form-group",
+                "_child" => 
+                    array(
+                        array(
+                            "tag" => "label",
+                            "class" => "form-label",
+                            "html" =>  $key),  
+                            array(
+                                "tag" => "input",
+                                "value" => $value,
+                                "name" => $key,
+                                "type" => "text",
+                                "id"  => "edit-id-".$key,
+                                "class" => "form-control",
+                            )));
+        }
+
+        return $template;
+    }
+
+    public function getEditTemplate($data){
+
+        $response_data = $this->_generateTemplate($data);
+
+        array_push($response_data, array(
+                "tag" => "button",
+                "class" => "btn btn-warning",
+                "id"  => "form-btn-update",
+                "ng-model" => "update",
+                "ng-click" => "update()",
+                "html" => "Update"
+            ));
+
+
+        $result_array = array(
+            array(
+                "tag" => "form",
+                "id"  => "edit-form",
+                "_child" => $response_data
+            )
+        );
+
+        return $result_array;
+    }
+
+    public function getInsertTemplate($data){
+
+        $response_data = $this->_generateTemplate($data);
+
+        array_push($response_data, array(
+                "tag" => "button",
+                "class" => "btn btn-warning",
+                "id"  => "form-btn-insert",
+                "ng-model" => "addrow",
+                "ng-click" => "addRow()",
+                "html" => "Add New Record"
+            ));
+
+
+        $result_array = array(
+            array(
+                "tag" => "form",
+                "id"  => "add-form",
+                "_child" => $response_data
+            )
+        );
+
+        return $result_array;
+    }
 
 }

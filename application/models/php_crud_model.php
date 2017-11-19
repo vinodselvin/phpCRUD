@@ -29,9 +29,22 @@ class Php_crud_model extends CI_Model {
             $result['data_type'][$value->name] = $value;
         }
 
+        $result['row'] = $this->getColumnNames($table_name);
+
         return $result;
     }
     
+    function getColumnNames($table_name){
+
+        $columns = $this->db->list_fields($table_name);
+
+        foreach($columns as $key => $value){
+            $response[$value] = "";
+        }
+
+        return $response;
+    }
+
     /*
      * @Author: Vinod Selvin
      * @Desc: Get Primary key of a table
@@ -169,5 +182,11 @@ class Php_crud_model extends CI_Model {
         unset($row[$primary_key]);
 
         return $this->db->update($table_name, $row);
+    }
+
+    public function insertNewRecord($table_name, $row){
+
+        return $this->db->insert($table_name, $row);
+        
     }
 }
