@@ -50,7 +50,7 @@ $db['default']['database'] = 'phpcrud';
 
 ## Built With
 
-1. PHP CodeIgnitor Framework
+1. PHP CodeIgniter Framework
 2. AngularJS 
 
 ## Contributing
