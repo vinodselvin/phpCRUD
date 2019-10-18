@@ -7,6 +7,8 @@ A library to create CRUD operations with nice views and a lot of useful features
 
 You can easily get the project running locally by following below installation steps.
 
+<a href="https://www.buymeacoffee.com/vinodselvin" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/yellow_img.png" alt="Buy Me A Coffee"></a>
+
 ### Installation
 
 1. Clone the repo in your pc
@@ -58,3 +60,5 @@ $db['default']['database'] = 'phpcrud';
 Please read CONTRIBUTING.md for details on our code of conduct, and the process for submitting pull requests to us.    
      
 If you have any questions, you can always get in touch with the Contributors of the Project.    
+
+<a href="https://www.buymeacoffee.com/vinodselvin" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/yellow_img.png" alt="Buy Me A Coffee"></a>
